@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Powerplanner</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <%= link_to 'Power Planner', welcome_index_path, :class => 'navbar-brand' %>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li><%= link_to "Macrocycle List", new_user_registration_path %></li>
+	        <li><%= link_to "Lucy", lucy_start_path %></li>
+	      </ul>
+	      <% if user_signed_in? %>
+	      	<p class="navbar-text navbar-right">Signed in as <%= link_to current_user.email, edit_user_registration_path %> | <%= link_to "Logout", destroy_user_session_path, method: :delete %></p>
+	      <% else %>
+	        <p class="navbar-text navbar-right"><%= link_to "Sign up", new_user_registration_path %> |
+          	<%= link_to "Login", new_user_session_path %></p>
+          <% end %>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+	<div class="container-fluid">
+		<% if notice %>
+		  <p class="alert alert-success"><%= notice %></p>
+		<% end %>
+		<% if alert %>
+		  <p class="alert alert-danger"><%= alert %></p>
+		<% end %>
+		<%= yield %>
+	</div>
+</body>
+</html>

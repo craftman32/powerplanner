@@ -1,0 +1,2 @@
+module LucyHelper
+end
