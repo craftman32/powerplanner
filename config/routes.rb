@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'exercise/list'
+
   get 'lucy/start'
 
   devise_for :users
@@ -17,8 +19,9 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
+  resources :exercises
+  resources :macrocycles
+  
   # Example resource route with options:
   #   resources :products do
   #     member do

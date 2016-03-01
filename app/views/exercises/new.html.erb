@@ -1,0 +1,16 @@
+<h1>New Exercise</h1>
+<%= form_for :exercise, url: exercises_path do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+ 
+  <p>
+    Put select boxes with variations here
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+  <%= link_to 'Back', exercises_path %>
+<% end %>

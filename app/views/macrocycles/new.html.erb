@@ -1,0 +1,16 @@
+<h1>New Macrocycle</h1>
+<%= form_for :macrocycle, url: macrocycles_path do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+ 
+  <p>
+    Put select box with the timeframe here
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+  <%= link_to 'Back', macrocycles_path %>
+<% end %>
