@@ -1,0 +1,16 @@
+<h1>Exercise Details</h1>
+<p>
+  <strong>Name:</strong>
+  <%= @exercise.name %>
+</p>
+ 
+<p>
+  <strong>Description:</strong>
+  <%= @exercise.description %>
+</p>
+
+<h3>Variation Details</h3>
+
+
+<%= link_to 'Edit', edit_exercise_path(@exercise), :class=>'btn btn-primary' %>
+<%= link_to 'Back', exercises_path %>

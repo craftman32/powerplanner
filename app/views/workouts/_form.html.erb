@@ -1,0 +1,35 @@
+<%= form_for @workout do |f| %>
+ 
+  <% if @workout.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@workout.errors.count, "error") %> prohibited
+        this workout from being saved:
+      </h2>
+      <ul>
+        <% @workout.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <fieldset>
+  <legend>Workout Details</legend>
+
+  <h3>Exercises</h3>
+  <!--
+  Add logic to sort exercises by method and body part
+  <% @exercises.each do |exercise| %>
+    <p>
+      <strong><%= exercise.name %>:</strong>
+      <br />
+      <%= collection_select(:exercise_id, 0, @exercises, :id, :name, :prompt => "- Select an Exercise -") %>
+    </p>
+  <% end %>
+  -->
+ </fieldset>
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

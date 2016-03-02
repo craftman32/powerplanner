@@ -1,0 +1,43 @@
+<%= form_for @exercise do |f| %>
+ 
+  <% if @exercise.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@exercise.errors.count, "error") %> prohibited
+        this exercise from being saved:
+      </h2>
+      <ul>
+        <% @exercise.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <fieldset>
+  <legend>Exercise Details</legend>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </p>
+
+  <h3>Variations</h3>
+
+  <% @variation_types.each do |variation_type| %>
+    <p>
+      <strong><%= variation_type.name %>:</strong>
+      <br />
+      <%= collection_select(:variation_id, 0, variation_type.variations, :id, :name, :prompt => "- Select a Variation -") %>
+    </p>
+  <% end %>
+
+ </fieldset>
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

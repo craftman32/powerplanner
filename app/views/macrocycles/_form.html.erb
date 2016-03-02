@@ -1,0 +1,56 @@
+<%= form_for @macrocycle do |f| %>
+ 
+  <% if @macrocycle.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@macrocycle.errors.count, "error") %> prohibited
+        this macrocycle from being saved:
+      </h2>
+      <ul>
+        <% @macrocycle.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <fieldset>
+  <legend>Macrocycle Details</legend>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </p>
+
+  <h3>Workout Details</h3>
+  <p>
+    <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
+      <h3>Mesocycle <%= index + 1%></h3>
+          <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
+            <div class="panel panel-default">
+              <div class="panel-heading"><strong>Week <%= index + 1 %></strong></div>
+              <div class="panel-body">
+                <div class="row">
+                  <% microcycle.workouts.each_with_index do |workout, index| %>
+                    <div class="col-xs-6 col-md-3">
+                      Workout <%= index + 1 %>: <%= workout.workout_type %>
+                      <p>
+                        <%= link_to 'Add Exercises', edit_workout_path(workout), :class=>'btn btn-primary' %>
+                      </p>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+      <% end %>
+  </p>
+ </fieldset>
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

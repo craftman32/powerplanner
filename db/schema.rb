@@ -46,7 +46,10 @@ ActiveRecord::Schema.define(version: 20160228182748) do
 
   create_table "macrocycles", force: :cascade do |t|
     t.string   "name"
+    t.text     "description"
     t.integer  "length"
+    t.string   "macrocycle_type"
+    t.string   "created_by"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -114,6 +117,7 @@ ActiveRecord::Schema.define(version: 20160228182748) do
 
   create_table "workouts", force: :cascade do |t|
     t.integer  "microcycle_id"
+    t.string   "workout_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

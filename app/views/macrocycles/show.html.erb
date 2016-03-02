@@ -1,0 +1,56 @@
+<h1>Macrocycle Details</h1>
+<p>
+  <strong>Name:</strong>
+  <%= @macrocycle.name %>
+</p>
+ 
+<p>
+  <strong>Length:</strong>
+  <%= @macrocycle.length %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @macrocycle.description %>
+</p>
+
+<p>
+  <strong>Created By:</strong>
+  <%= @macrocycle.created_by %>
+</p>
+
+<h3>Mesocycle Details</h3>
+<p>
+	<% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
+		Mesocycle <%= index + 1%>
+	  		<% mesocycle.microcycles.each_with_index do |microcycle, index| %>
+	  			<p>
+	  				<strong>Week <%= index + 1 %></strong>
+	  			</p>
+	  			<div class="row">
+		  			<% microcycle.workouts.each_with_index do |workout, index| %>
+		  				<div class="col-xs-6 col-md-3">
+		  					Workout <%= index + 1 %>: <%= workout.workout_type %>
+		  					<p>
+		  						Put exercises here
+		  					</p>
+		  				</div>
+		  			<% end %>
+	  			</div>
+	  		<% end %>
+  	<% end %>
+</p>
+
+<h3>Users Following This Macrocycle</h3>
+<p>
+	<% if @macrocycle.users.any? %>
+		<% @macrocycle.users.each do |user| %>
+  			<%= user.email %>
+  		<% end %>
+  	<% else %>
+  		There are no users who used this cycle
+  	<% end %>
+</p>
+
+<%= link_to 'Edit', edit_macrocycle_path(@macrocycle), :class=>'btn btn-primary' %>
+<%= link_to 'Back', macrocycles_path %>

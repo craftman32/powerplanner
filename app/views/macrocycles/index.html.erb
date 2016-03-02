@@ -1,2 +1,33 @@
 <h1>Macrocycles</h1>
-<%= link_to 'New Macrocycle', new_macrocycle_path %>
+<%= link_to 'New Macrocycle', new_macrocycle_path, :class=>'btn btn-success' %>
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Weeks</th>
+    <th>Created By</th>
+    <th>Created On</th>
+    <th>Actions</th>
+  </tr>
+ 
+  <% @macrocycles.each do |macrocycle| %>
+    <tr>
+      <td>
+      	<%= macrocycle.name %>
+      </td>
+      <td>
+      	<%= macrocycle.length %>
+      </td>
+      <td>
+      	<%= macrocycle.created_by %>
+      </td>
+      <td>
+      	<%= macrocycle.created_at %>
+      </td>
+      <td>
+        <%= link_to 'Details', macrocycle_path(macrocycle), :class=>'btn btn-default' %>
+      	<%= link_to 'Edit', edit_macrocycle_path(macrocycle), :class=>'btn btn-primary' %>
+        <%= link_to 'Delete', macrocycle_path(macrocycle), :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
