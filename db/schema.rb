@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228182748) do
+ActiveRecord::Schema.define(version: 20160308202327) do
 
   create_table "Exercises_Variations", id: false, force: :cascade do |t|
     t.integer "exercise_id",  null: false
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20160228182748) do
   create_table "Exercises_Weaknesses", id: false, force: :cascade do |t|
     t.integer "exercise_id", null: false
     t.integer "weakness_id", null: false
+    t.integer "rank"
   end
 
   add_index "Exercises_Weaknesses", ["exercise_id", "weakness_id"], name: "index_Exercises_Weaknesses_on_exercise_id_and_weakness_id"
@@ -50,18 +51,21 @@ ActiveRecord::Schema.define(version: 20160228182748) do
     t.integer  "length"
     t.string   "macrocycle_type"
     t.string   "created_by"
+    t.date     "macrocycle_start_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "mesocycles", force: :cascade do |t|
     t.integer  "macrocycle_id"
+    t.date     "mesocycle_start_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "microcycles", force: :cascade do |t|
     t.integer  "mesocycle_id"
+    t.date     "microcycle_start_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -88,6 +92,14 @@ ActiveRecord::Schema.define(version: 20160228182748) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
+  create_table "users_weaknesses", id: false, force: :cascade do |t|
+    t.integer "user_id",     null: false
+    t.integer "weakness_id", null: false
+  end
+
+  add_index "users_weaknesses", ["user_id", "weakness_id"], name: "index_users_weaknesses_on_user_id_and_weakness_id"
+  add_index "users_weaknesses", ["weakness_id", "user_id"], name: "index_users_weaknesses_on_weakness_id_and_user_id"
+
   create_table "variation_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -103,6 +115,7 @@ ActiveRecord::Schema.define(version: 20160228182748) do
 
   create_table "weaknesses", force: :cascade do |t|
     t.string   "name"
+    t.string   "bodypart"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -118,6 +131,7 @@ ActiveRecord::Schema.define(version: 20160228182748) do
   create_table "workouts", force: :cascade do |t|
     t.integer  "microcycle_id"
     t.string   "workout_type"
+    t.date     "workout_start_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

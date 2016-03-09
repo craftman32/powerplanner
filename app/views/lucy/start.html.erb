@@ -1,2 +1,32 @@
-<h1>Lucy#start</h1>
-<p>Find me in app/views/lucy/start.html.erb</p>
+<h1>Introduction</h1>
+<div class="jumbotron">
+	<p>Hello there! My name is Lucy and I’ll be your guide for creating your very own powerlifting training cycle. It is very important to make a training plan before you go to the gym. After all, failing to plan is planning to fail! I will walk you through the steps of creating a training cycle for you to get stronger. Are you ready to begin?</p>
+</div>
+<div class="row text-center">
+	<div class="col-md-4">
+		<p>
+			Please help me design my own training cycle!
+		</p>
+	</div>
+	<div class="col-md-4">
+		<p>
+			No thanks, I prefer to design a cycle by myself using the manual cycle builder
+		</p>
+	</div>
+	<div class="col-md-4">
+		<p>
+			No thanks, I just wanna get toned for summer
+		</p>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-4">
+		<%= link_to 'Yes', lucy_weaknesses_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-4">
+		<%= link_to 'Manual', new_macrocycle_path, :class=>'btn btn-default' %>
+	</div>
+	<div class="col-md-4">
+		<%= link_to 'No Thanks', welcome_index_path, :class=>'btn btn-danger' %>
+	</div>
+</div>

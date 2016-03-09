@@ -19,14 +19,16 @@ class MacrocyclesController < ApplicationController
     @macrocycle = Macrocycle.new(macrocycle_params)
  	  @macrocycle.created_by = current_user.email
     if @macrocycle.save
+      start_date = @macrocycle.macrocycle_start_date
       for i in 1..(@macrocycle.length / 4)
-        @macrocycle.mesocycles.create
+        @macrocycle.mesocycles.create(mesocycle_start_date: start_date)
         for i in 1..4
-          @macrocycle.mesocycles.last.microcycles.create
-          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Max Effort Lower")
-          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Max Effort Upper")
-          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Dynamic Effort Lower")
-          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Dynamic Effort Upper")
+          @macrocycle.mesocycles.last.microcycles.create(microcycle_start_date: start_date)
+          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Max Effort Lower", workout_start_date: start_date)
+          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Max Effort Upper", workout_start_date: (start_date + 1))
+          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Dynamic Effort Lower", workout_start_date: (start_date + 3))
+          @macrocycle.mesocycles.last.microcycles.last.workouts.create(workout_type: "Dynamic Effort Upper", workout_start_date: (start_date + 4))
+          start_date = start_date + 7
         end
       end
       redirect_to @macrocycle
@@ -54,6 +56,6 @@ class MacrocyclesController < ApplicationController
  
   private
     def macrocycle_params
-      params.require(:macrocycle).permit(:name, :description, :length)
+      params.require(:macrocycle).permit(:name, :description, :length, :macrocycle_start_date)
     end
 end

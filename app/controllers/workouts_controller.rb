@@ -27,11 +27,7 @@ class WorkoutsController < ApplicationController
   def update
     @workout = Workout.find(params[:id])
  
-    if @workout.update(workout_params)
-      redirect_to @workout
-    else
-      render 'edit'
-    end
+    redirect_to edit_macrocycle_path(@workout.microcycle.mesocycle.macrocycle)
   end
  
   def destroy
@@ -41,8 +37,8 @@ class WorkoutsController < ApplicationController
     redirect_to workouts_path
   end
  
-  private
-    def workout_params
-      params.require(:workout).permit(:name, :description)
-    end
+  # private
+  #  def workout_params
+  #    params.require(:workout).permit(:name, :description)
+  #  end
 end

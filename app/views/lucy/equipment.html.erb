@@ -1,0 +1,25 @@
+<h1>Gym Equipment</h1>
+<div class="jumbotron">
+	<p>
+		Your cycle length and start date have been recorded! Next, I would like to know some things about the gym that you train at in order to determine the exercises I can suggest to you. A principle of conjugate training is avoiding the law of accommodation. The law of accommodation states that after a while, your body will not respond to the same stimulus and will start to become stale, so the conjugate method gets around this by constantly rotating exercises and training variables. The more equipment that you have, the greater the variety you can implement in your training. You can select the type of gym you train at below, or you can manually select what equipment you have below.
+	</p>
+</div>
+<div class="row  text-center">
+	<div class="col-md-6">
+		<h3>Commercial Gym</h3>
+		<p>
+			I train at a commercial gym with basic barbells, machines, and equipment.
+		</p>
+		<br />
+		<%= link_to 'Select this option', lucy_commercialequipment_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-6">
+		<h3>Powerlifting Gym</h3>
+		<p>
+			I train at a powerlifting gym with specialty bars, machines, and equipment.
+		</p>
+		<br />
+		<%= link_to 'Select this option', lucy_powerliftingequipment_path, :class=>'btn btn-primary' %>
+	</div>
+</div>
+

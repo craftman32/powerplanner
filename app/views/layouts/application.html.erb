@@ -36,14 +36,22 @@
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
-	<div class="container-fluid">
-		<% if notice %>
-		  <p class="alert alert-success"><%= notice %></p>
-		<% end %>
-		<% if alert %>
-		  <p class="alert alert-danger"><%= alert %></p>
-		<% end %>
-		<%= yield %>
+	<div class="container theme-showcase" role="main">
+		<div id="main"> 
+			<% if notice %>
+			  <p class="alert alert-success"><%= notice %></p>
+			<% end %>
+			<% if alert %>
+			  <p class="alert alert-danger"><%= alert %></p>
+			<% end %>
+			<%= yield %>
+		</div>
 	</div>
+	<br />
+	<nav class="navbar navbar-default">
+		<div class="navbar-collapse pull-right">
+			Made by Mike in Spring 2016
+		</div>
+	</nav>
 </body>
 </html>

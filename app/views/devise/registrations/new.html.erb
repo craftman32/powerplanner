@@ -21,6 +21,26 @@
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
+  <div class="field">
+    <%= f.label :bodyweight %><br />
+    <%= f.number_field :bodyweight, :step => 'any' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :squatmax %><br />
+    <%= f.number_field :squatmax, :step => 'any' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :benchmax %><br />
+    <%= f.number_field :benchmax, :step => 'any' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :deadliftmax %><br />
+    <%= f.number_field :deadliftmax, :step => 'any' %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

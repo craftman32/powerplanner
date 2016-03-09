@@ -2,6 +2,15 @@ Rails.application.routes.draw do
   get 'exercise/list'
 
   get 'lucy/start'
+  get 'lucy/weaknesses'
+  get 'lucy/autoweaknesses'
+  post 'lucy/manualweaknesses'
+  get 'lucy/timeframe'
+  post 'lucy/timeframe_post'
+  get 'lucy/equipment'
+  get 'lucy/commercialequipment'
+  get 'lucy/powerliftingequipment'
+  get 'lucy/maxeffort'
 
   devise_for :users
   get 'welcome/index'

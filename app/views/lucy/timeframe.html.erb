@@ -1,0 +1,27 @@
+<h1>Timeframe</h1>
+<div class="jumbotron">
+	<p>
+		I've recorded your weaknesses! Now to build your training plan! Training plans are broken up into large periods of time called “macrocycles” which consist of smaller periods of time called “mesocycles” which consist of even smaller periods of time called “microcycles” which finally consist of individual workouts. Macrocycles consist of 8-12 weeks of training, mesocycles consist of 4 weeks of training, microcycles consist of a single training week, and a workout consists of a single training day. If this is confusing, don’t worry! I will keep track of your training plan so you don’t have to remember everything. Please select a timeframe below and a date which you want to begin your training cycle. When you have done this, please click next.
+	</p>
+</div>
+<%= form_tag("/lucy/timeframe_post", method: "post") do %>
+	<div class="row  text-center">
+		<div class="col-md-6">
+			<h3>How long do you want your training plan to be?</h3>
+			<p>
+			  <%= label_tag :length %>
+			  <%= select_tag(:length, options_for_select([['- Select the number of weeks -', 0],['8 Weeks', 8], ['12 Weeks', 12]], 0)) %>
+			</p>
+		</div>
+		<div class="col-md-6">
+			<h3>When would you like to start your training cycle?</h3>
+			<p>
+			  <%= label_tag :macrocycle_start_date %>
+			  <%= select_date Date.today, prefix: :macrocycle_start_date %>
+			</p>
+		</div>
+	</div>
+	<div class="row  text-center">
+		<%= submit_tag "Submit Time Options", :class=>'btn btn-primary' %>
+	</div>
+<% end %>

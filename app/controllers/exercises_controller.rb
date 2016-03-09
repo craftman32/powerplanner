@@ -41,11 +41,11 @@ class ExercisesController < ApplicationController
     @exercise = Exercise.find(params[:id])
     @exercise.destroy
  
-    redirect_to articles_path
+    redirect_to exercises_path
   end
  
   private
     def exercise_params
-      params.require(:exercise).permit(:name, :description)
+      params.require(:exercise).permit(:name, :description, variation_ids:[])
     end
 end

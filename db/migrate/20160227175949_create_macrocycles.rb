@@ -6,6 +6,7 @@ class CreateMacrocycles < ActiveRecord::Migration
       t.integer :length
       t.string :macrocycle_type
       t.string :created_by
+      t.date :macrocycle_start_date
       t.timestamps
     end
   end

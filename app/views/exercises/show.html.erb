@@ -10,7 +10,13 @@
 </p>
 
 <h3>Variation Details</h3>
-
+<% if @exercise.variations.any? %>
+	<% @exercise.variations.each do |variation| %>
+		<p>
+			<%= variation.name %>
+		</p>
+	<% end %>
+<% end %>
 
 <%= link_to 'Edit', edit_exercise_path(@exercise), :class=>'btn btn-primary' %>
 <%= link_to 'Back', exercises_path %>

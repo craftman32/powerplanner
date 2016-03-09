@@ -27,11 +27,20 @@
 
   <h3>Variations</h3>
 
-  <% @variation_types.each do |variation_type| %>
+  <% @variation_types.each_with_index do |variation_type, i| %>
     <p>
       <strong><%= variation_type.name %>:</strong>
       <br />
-      <%= collection_select(:variation_id, 0, variation_type.variations, :id, :name, :prompt => "- Select a Variation -") %>
+      <% if variation_type.name == "Equipment" or variation_type.name == "Tension" %>
+        <%= f.collection_check_boxes :variation_ids, variation_type.variations, :id, :name do |b| %>
+          <div class="collection-check-box">
+            <%= b.check_box %>
+            <%= b.label %>
+          </div>
+        <% end %> 
+      <% else %>
+        <%= f.collection_select(:variation_id, variation_type.variations, :id, :name) %>
+      <% end %>
     </p>
   <% end %>
 

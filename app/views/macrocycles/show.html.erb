@@ -19,7 +19,12 @@
   <%= @macrocycle.created_by %>
 </p>
 
-<h3>Mesocycle Details</h3>
+<p>
+  <strong>Start Date:</strong>
+  <%= @macrocycle.macrocycle_start_date.strftime("%B %d, %Y") %>
+</p>
+
+<h3>Workout Details</h3>
 <p>
 	<% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
 		Mesocycle <%= index + 1%>
@@ -31,6 +36,8 @@
 		  			<% microcycle.workouts.each_with_index do |workout, index| %>
 		  				<div class="col-xs-6 col-md-3">
 		  					Workout <%= index + 1 %>: <%= workout.workout_type %>
+		  					<br />
+		  					<%= workout.workout_start_date.strftime("%B %d, %Y") %>
 		  					<p>
 		  						Put exercises here
 		  					</p>

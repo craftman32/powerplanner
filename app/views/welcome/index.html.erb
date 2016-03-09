@@ -1,3 +1,37 @@
-<h1>Welcome to the Power Planner</h1>
-<p></p>
+<h3>Welcome to the Power Planner</h3>
+<div class="row text-center">
+	<h1>Current Maxes</h1>
+</div>
+<div class="row text-center">
+	<div class="col-md-4">
+		<h2>Squat</h2>
+		<h2>
+			<%= current_user.squatmax %>
+		</h2>
+	</div>
+	<div class="col-md-4">
+		<h2>Bench Press</h2>
+		<h2>
+			<%= current_user.benchmax %>
+		</h2>
+	</div>
+	<div class="col-md-4 text-center">
+		<h2>Deadlift</h2>
+		<h2>
+			<%= current_user.deadliftmax %>
+		</h2>
+	</div>
+</div>
 
+<div class="row">
+	<h3>This Week's Training</h3>
+</div>
+<% if current_user.macrocycles.any? %>
+<% current_user.macrocycles.last do |macrocycle| %>
+		<%= macrocycle.name %>
+	<% end %>
+<% else %>
+	<p>
+		You currently are not following a training plan made in the Power Planner. You can make one using <%= link_to 'Lucy', lucy_start_path, :class=>'btn btn-primary' %> or <%= link_to 'Manual Cycle Builder', new_macrocycle_path, :class=>'btn btn-primary' %>
+	</p>
+<% end %>

@@ -25,29 +25,43 @@
     <%= f.text_area :description %>
   </p>
 
-  <h3>Workout Details</h3>
-  <p>
-    <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
-      <h3>Mesocycle <%= index + 1%></h3>
-          <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
-            <div class="panel panel-default">
-              <div class="panel-heading"><strong>Week <%= index + 1 %></strong></div>
-              <div class="panel-body">
-                <div class="row">
-                  <% microcycle.workouts.each_with_index do |workout, index| %>
-                    <div class="col-xs-6 col-md-3">
-                      Workout <%= index + 1 %>: <%= workout.workout_type %>
-                      <p>
-                        <%= link_to 'Add Exercises', edit_workout_path(workout), :class=>'btn btn-primary' %>
-                      </p>
-                    </div>
-                  <% end %>
+  <% if @macrocycle.mesocycles.any? %>
+    <h3>Workout Details</h3>
+    <p>
+      <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
+        <h3>Mesocycle <%= index + 1%></h3>
+            <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
+              <div class="panel panel-default">
+                <div class="panel-heading"><strong>Week <%= index + 1 %></strong></div>
+                <div class="panel-body">
+                  <div class="row">
+                    <% microcycle.workouts.each_with_index do |workout, index| %>
+                      <div class="col-xs-6 col-md-3">
+                        Workout <%= index + 1 %>: <%= workout.workout_type %>
+                        <br />
+                        <%= workout.workout_start_date.strftime("%B %d, %Y") %>
+                        <p>
+                          <%= link_to 'Add Exercises', edit_workout_path(workout), :class=>'btn btn-primary' %>
+                        </p>
+                      </div>
+                    <% end %>
+                  </div>
                 </div>
               </div>
-            </div>
-          <% end %>
-      <% end %>
-  </p>
+            <% end %>
+        <% end %>
+    </p>
+  <% else %>
+    <p>
+      <%= f.label :length %><br>
+      <%= f.select(:length, [['8 Weeks',8],['12 Weeks',12]]) %>
+    </p>
+
+    <p>
+      <%= f.label :macrocycle_start_date %><br />
+      <%= f.date_select :macrocycle_start_date %>
+    </p>
+  <% end %>
  </fieldset>
   <p>
     <%= f.submit %>
