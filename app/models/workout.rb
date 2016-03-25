@@ -1,4 +1,4 @@
 class Workout < ActiveRecord::Base
 	belongs_to :microcycle
-	has_many :workoutsets, dependent: :destroy
+	has_and_belongs_to_many :exercises
 end

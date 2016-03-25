@@ -1,0 +1,28 @@
+<h1>Repetition Effort Exercises</h1>
+<div class="jumbotron">
+	<p>
+		I’ve recorded your dynamic effort exercises! Next, let’s choose exercises that will help build up your weak muscles using the repetition method. The repetition method involves lifting a submaximal weight for a high number of repetitions and is commonly associated with bodybuilding. This method builds the muscles used for the squat, bench press, and deadlift, and over time will directly translate into increased strength. With this method you will use 4-6 lower body exercises and 4-6 upper body exercises for four weeks at a time for each corresponding workout. As with the max effort and dynamic effort methods, I can choose repetition effort exercises for you or you can choose exercises from a list.
+	</p>
+</div>
+<div class="row  text-center">
+	<div class="col-md-6">
+		<h3>Automatically Assign Me Repetition Effort Exercises</h3>
+		<p>
+			I will automatically enter repetition effort exercises for you based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+	<div class="col-md-6">
+		<h3>Manually Select Repetition Effort Exercises</h3>
+		<p>
+			I will give you a list of repetition effort exercises for you to choose from based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<%= link_to 'Auto Assign', lucy_autorepetitioneffort_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-6">
+		<%= link_to 'Manual', lucy_repetitioneffort_post_path, :class=>'btn btn-default' %>
+	</div>
+</div>

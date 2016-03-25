@@ -18,5 +18,14 @@
 	<% end %>
 <% end %>
 
+<h3>Weakness Details</h3>
+<% if @exercise.weaknesses.any? %>
+	<% @exercise.weaknesses.each do |weakness| %>
+		<p>
+			<%= weakness.name %>
+		</p>
+	<% end %>
+<% end %>
+
 <%= link_to 'Edit', edit_exercise_path(@exercise), :class=>'btn btn-primary' %>
 <%= link_to 'Back', exercises_path %>

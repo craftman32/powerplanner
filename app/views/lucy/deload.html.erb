@@ -1,0 +1,28 @@
+<h1>Deload Options</h1>
+<div class="jumbotron">
+	<p>
+		
+	</p>
+</div>
+<div class="row  text-center">
+	<div class="col-md-6">
+		<h3>Automatically Assign Me Deload Options</h3>
+		<p>
+			I will automatically choose deload options for you based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+	<div class="col-md-6">
+		<h3>Manually Select Deload Options</h3>
+		<p>
+			I will give you a list of deload options for you to choose from based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<%= link_to 'Auto Assign', lucy_autodeload_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-6">
+		<%= link_to 'Manual', lucy_deload_post_path, :class=>'btn btn-default' %>
+	</div>
+</div>

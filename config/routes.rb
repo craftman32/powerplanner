@@ -1,16 +1,41 @@
 Rails.application.routes.draw do
   get 'exercise/list'
 
+  # Setting the routes for Lucy
   get 'lucy/start'
+
   get 'lucy/weaknesses'
   get 'lucy/autoweaknesses'
-  post 'lucy/manualweaknesses'
+  post 'lucy/weaknesses_post'
+
   get 'lucy/timeframe'
   post 'lucy/timeframe_post'
+
   get 'lucy/equipment'
   get 'lucy/commercialequipment'
   get 'lucy/powerliftingequipment'
+
   get 'lucy/maxeffort'
+  get 'lucy/automaxeffort'
+  post 'lucy/maxeffort_post'
+
+  get 'lucy/dynamiceffort'
+  get 'lucy/autodynamiceffort'
+  post 'lucy/dynamiceffort_post'
+
+  get 'lucy/repetitioneffort'
+  get 'lucy/autorepetitioneffort'
+  post 'lucy/repetitioneffort_post'
+
+  get 'lucy/warmup'
+  get 'lucy/autowarmup'
+  post 'lucy/warmup_post'
+
+  get 'lucy/deload'
+  get 'lucy/autodeload'
+  post 'lucy/deload_post'
+
+  get 'lucy/finish'
 
   devise_for :users
   get 'welcome/index'

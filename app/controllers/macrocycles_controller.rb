@@ -13,6 +13,17 @@ class MacrocyclesController < ApplicationController
  
   def edit
     @macrocycle = Macrocycle.find(params[:id])
+
+    @maxLowerExercises = Array.new
+    @maxUpperExercises = Array.new
+    
+    Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
+      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+        @maxLowerExercises.push(exercise)
+      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+        @maxUpperExercises.push(exercise)
+      end
+    end
   end
  
   def create
@@ -53,7 +64,7 @@ class MacrocyclesController < ApplicationController
  
     redirect_to macrocycles_path
   end
- 
+
   private
     def macrocycle_params
       params.require(:macrocycle).permit(:name, :description, :length, :macrocycle_start_date)

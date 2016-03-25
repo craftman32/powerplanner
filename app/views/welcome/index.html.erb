@@ -23,9 +23,7 @@
 	</div>
 </div>
 
-<div class="row">
-	<h3>This Week's Training</h3>
-</div>
+<h3>This Week's Training</h3>
 <% if current_user.macrocycles.any? %>
 <% current_user.macrocycles.last do |macrocycle| %>
 		<%= macrocycle.name %>

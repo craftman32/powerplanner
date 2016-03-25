@@ -40,9 +40,6 @@
                         Workout <%= index + 1 %>: <%= workout.workout_type %>
                         <br />
                         <%= workout.workout_start_date.strftime("%B %d, %Y") %>
-                        <p>
-                          <%= link_to 'Add Exercises', edit_workout_path(workout), :class=>'btn btn-primary' %>
-                        </p>
                       </div>
                     <% end %>
                   </div>
@@ -50,6 +47,30 @@
               </div>
             <% end %>
         <% end %>
+    </p>
+    <p>
+      Max Lower Exercises:
+      <br />
+      <% @maxLowerExercises.each do |exercise| %>
+        <%= exercise.name %>
+        <br />
+      <% end %>
+    </p>
+    <p>
+      Max Upper Exercises:
+      <br />
+      <% @maxUpperExercises.each do |exercise| %>
+        <%= exercise.name %>
+        <br />
+      <% end %>
+    </p>
+    <p>
+      <%= f.collection_check_boxes :exercise_ids, @maxLowerExercises, :id, :name do |b| %>
+        <div class="collection-check-box">
+          <%= b.check_box %>
+          <%= b.label %>
+        </div>
+      <% end %>
     </p>
   <% else %>
     <p>

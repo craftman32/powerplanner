@@ -1,24 +1,28 @@
 <h1>Max Effort Exercises</h1>
 <div class="jumbotron">
 	<p>
-		I’ve taken note of your available equipment. Now, we can get into the fun part of making your cycle: choosing exercises! To begin with, let’s choose max effort movements for your max effort workouts. The max effort method is lifting a maximal weight with maximal force in an exercise, often trying to break a personal record in that exercise. This method builds maximal strength and coordination in a movement, which is very important for powerlifting. In a max effort workout, you will try to lift the most you can in a movement for one, two, or three reps, depending on the movement and its position in the macrocycle. I can offer you two options: I can automatically assign you max effort movements based on your timeframe, weaknesses, and equipment or I can show you a list of max effort movements that correspond to your weaknesses and equipment and you can pick which ones you want to use in your cycle.
+		I’ve taken note of your available equipment. Now, we can get into the fun part of making your cycle: choosing exercises! To begin with, let’s choose max effort exercises for your max effort workouts. The max effort method is lifting a maximal weight with maximal force in an exercise, often trying to break a personal record in that exercise. This method builds maximal strength and coordination in a movement, which is very important for powerlifting. In a max effort workout, you will try to lift the most you can in a movement for one, two, or three reps, depending on the movement and its position in the macrocycle. I can offer you two options: I can automatically assign you max effort exercises based on your timeframe, weaknesses, and equipment or I can show you a list of max effort exercises that correspond to your weaknesses and equipment and you can pick which ones you want to use in your cycle.
 	</p>
 </div>
 <div class="row  text-center">
 	<div class="col-md-6">
-		<h3>Automatically Assign Me Max Effort Movements</h3>
+		<h3>Automatically Assign Me Max Effort Exercises</h3>
 		<p>
-			I train at a commercial gym with basic barbells, machines, and equipment.
+			I will automatically enter max effort exercises for you based on your weaknesses, timeframe, and available equipment.
 		</p>
-		<br />
-		<%= link_to 'Select this option', lucy_commercialequipment_path, :class=>'btn btn-primary' %>
 	</div>
 	<div class="col-md-6">
-		<h3>Manually Select Max Effort Movements</h3>
+		<h3>Manually Select Max Effort Exercises</h3>
 		<p>
-			I train at a powerlifting gym with specialty bars, machines, and equipment.
+			I will give you a list of max effort exercises for you to choose from based on your weaknesses, timeframe, and available equipment.
 		</p>
-		<br />
-		<%= link_to 'Select this option', lucy_powerliftingequipment_path, :class=>'btn btn-primary' %>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<%= link_to 'Auto Assign', lucy_automaxeffort_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-6">
+		<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>

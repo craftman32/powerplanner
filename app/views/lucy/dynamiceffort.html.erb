@@ -1,0 +1,28 @@
+<h1>Dynamic Effort Exercises</h1>
+<div class="jumbotron">
+	<p>
+		I’ve written down your max effort exercises, now it’s time to choose dynamic effort exercises. The dynamic effort method involves lifting a submaximal weight with maximal velocity: building speed and technique in a movement. Lower body dynamic effort exercises are performed for two rep sets and upper body dynamic effort exercises are performed for three rep sets. A dynamic effort movement will be used for four weeks at a time with a pendulum wave of intensity and a flat-loaded amount of volume. This means that as the weeks go on, the weight used for the exercise will increase but the sets performed will decrease, resulting in an increase in intensity for each successive week but an equal training volume for each week. Don’t worry if I am confusing you: I will take care of all the calculations so you can focus on getting strong! I can automatically assign you dynamic effort exercises based on your timeframe, weaknesses, and equipment or I can show you a list of dynamic effort exercises that correspond to your weaknesses and equipment and you can pick which ones you want to use in your cycle.
+	</p>
+</div>
+<div class="row  text-center">
+	<div class="col-md-6">
+		<h3>Automatically Assign Me Dynamic Effort Exercises</h3>
+		<p>
+			I will automatically enter dynamic effort exercises for you based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+	<div class="col-md-6">
+		<h3>Manually Select Dynamic Effort Exercises</h3>
+		<p>
+			I will give you a list of dynamic effort exercises for you to choose from based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<%= link_to 'Auto Assign', lucy_autodynamiceffort_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-6">
+		<%= link_to 'Manual', lucy_dynamiceffort_post_path, :class=>'btn btn-default' %>
+	</div>
+</div>

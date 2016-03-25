@@ -2,7 +2,9 @@
 </script>
 <h1>Weaknesses</h1>
 <div class="jumbotron">
-	<p>The heart of a conjugate-style training plan is turning weaknesses into strengths. As the old saying goes: “you’re only as strong as your weakest link,” so you need to get those weak muscles nice and strong!</p>
+	<p>
+		The heart of a conjugate-style training plan is turning weaknesses into strengths. As the old saying goes: “you’re only as strong as your weakest link,” so you need to get those weak muscles nice and strong!
+	</p>
 </div>
 <div class="row text-center">
 	<div class="col-md-6">
@@ -18,36 +20,38 @@
 		</p>
 	</div>
 </div>
-<div class="row text-center" id="weaknessArea">
+<div class="row text-center">
 	<div class="col-md-6">
 		<%= link_to 'Auto Assign', lucy_autoweaknesses_path, :class=>'btn btn-primary' %>
 	</div>
 	<div class="col-md-6">
-		<a href="" onClick="$('#weaknessArea').toggle();" class="btn btn-default">Manual</a>
+		<a href="#" onClick="$('#weaknessArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
 <%= form_tag("/lucy/manualweaknesses", method: "post") do %>
-	<div class="row text-center" id="weaknessArea">
-		<div class="col-md-6">
-			<h2>Lower Body Muscles</h2>
-			<%= collection_check_boxes current_user, :weakness_ids, @lowerweaknesses, :id, :name do |b| %>
-			  <div class="collection-check-box">
-			    <%= b.check_box %>
-			    <%= b.label %>
-			  </div>
-			<% end %>
-		</div> 
-		<div class="col-md-6">
-			<h2>Upper Body Muscles</h2>
-			<%= collection_check_boxes current_user, :weakness_ids, @upperweaknesses, :id, :name do |b| %>
-			  <div class="collection-check-box">
-			    <%= b.check_box %>
-			    <%= b.label %>
-			  </div>
-			<% end %> 
+	<div  id="weaknessArea" style="display:none">
+		<div class="row text-center">
+			<div class="col-md-6">
+				<h2>Lower Body Muscles</h2>
+				<%= collection_check_boxes current_user, :weakness_ids, @lowerweaknesses, :id, :name do |b| %>
+				  <div class="collection-check-box">
+				    <%= b.check_box %>
+				    <%= b.label %>
+				  </div>
+				<% end %>
+			</div> 
+			<div class="col-md-6">
+				<h2>Upper Body Muscles</h2>
+				<%= collection_check_boxes current_user, :weakness_ids, @upperweaknesses, :id, :name do |b| %>
+				  <div class="collection-check-box">
+				    <%= b.check_box %>
+				    <%= b.label %>
+				  </div>
+				<% end %> 
+			</div>
 		</div>
-	</div>
-	<div class="row  text-center">
-		<%= submit_tag "Submit Time Options", :class=>'btn btn-primary' %>
+		<div class="row  text-center">
+			<%= submit_tag "Save Weakness Options", :class=>'btn btn-primary' %>
+		</div>
 	</div>
 <% end %>

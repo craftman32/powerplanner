@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308202327) do
+ActiveRecord::Schema.define(version: 20160309211755) do
 
   create_table "Exercises_Variations", id: false, force: :cascade do |t|
     t.integer "exercise_id",  null: false
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 20160308202327) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "exercises_workouts", id: false, force: :cascade do |t|
+    t.integer "workout_id",  null: false
+    t.integer "exercise_id", null: false
+  end
+
+  add_index "exercises_workouts", ["exercise_id", "workout_id"], name: "index_exercises_workouts_on_exercise_id_and_workout_id"
+  add_index "exercises_workouts", ["workout_id", "exercise_id"], name: "index_exercises_workouts_on_workout_id_and_exercise_id"
 
   create_table "macrocycles", force: :cascade do |t|
     t.string   "name"

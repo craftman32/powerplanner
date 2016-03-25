@@ -27,7 +27,7 @@
 
   <h3>Variations</h3>
 
-  <% @variation_types.each_with_index do |variation_type, i| %>
+  <% @variation_types.each do |variation_type| %>
     <p>
       <strong><%= variation_type.name %>:</strong>
       <br />
@@ -39,7 +39,7 @@
           </div>
         <% end %> 
       <% else %>
-        <%= f.collection_select(:variation_id, variation_type.variations, :id, :name) %>
+        <%= f.collection_select(:variation_ids, variation_type.variations, :id, :name, {:include_blank => 'Please Select'}) %>
       <% end %>
     </p>
   <% end %>

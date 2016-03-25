@@ -1,0 +1,28 @@
+<h1>Warmup Exercises</h1>
+<div class="jumbotron">
+	<p>
+		Congratulations! We’ve made the bulk of the training cycle! All that’s left is choosing your warmup exercises and deload options. It’s extremely important to properly warmup before your workouts in order to prevent injury and promote longevity. Warmups for each workout will consist of performing a circuit of three small exercises for 25 reps per exercise. The exercises will correlate to the portion of the body being trained and will activate muscle groups being used that day. Once again, I can choose warmup exercises for you or you can choose exercises from a list.
+	</p>
+</div>
+<div class="row  text-center">
+	<div class="col-md-6">
+		<h3>Automatically Assign Me Warmup Exercises</h3>
+		<p>
+			I will automatically enter repetition effort exercises for you based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+	<div class="col-md-6">
+		<h3>Manually Select Warmup Exercises</h3>
+		<p>
+			I will give you a list of warmup exercises for you to choose from based on your weaknesses, timeframe, and available equipment.
+		</p>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<%= link_to 'Auto Assign', lucy_autowarmup_path, :class=>'btn btn-primary' %>
+	</div>
+	<div class="col-md-6">
+		<%= link_to 'Manual', lucy_warmup_post_path, :class=>'btn btn-default' %>
+	</div>
+</div>
