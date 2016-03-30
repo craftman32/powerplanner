@@ -1,5 +1,10 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+####################################################################################################
+####################################################################################################
+# This makes all the exercise variations, exercises, and weakness records used in the application  #
+# This current version makes 3754 exercises (3-30-2016)                                            #
+####################################################################################################
+####################################################################################################
+
 # Making the variation categories
 VariationType.create(name:"Bar")
 bar = VariationType.last.id
@@ -34,6 +39,12 @@ tempo = VariationType.last.id
 VariationType.create(name:"Tension")
 tension = VariationType.last.id
 
+VariationType.create(name:"Max effort rep range")
+maxEffortRepRange = VariationType.last.id
+
+VariationType.create(name:"Pause count")
+pauseCount = VariationType.last.id
+
 # Making all the variations
 # Making the bar variations
 accessoryBars = Array.new
@@ -53,6 +64,9 @@ Variation.create(name:"", variation_type_id:board)
 Variation.create(name:"1-board", variation_type_id:board)
 Variation.create(name:"2-board", variation_type_id:board)
 Variation.create(name:"3-board", variation_type_id:board)
+Variation.create(name:"Floor", variation_type_id:board)
+Variation.create(name:"Pin at the chest", variation_type_id:board)
+Variation.create(name:"Pin 3 inches above the chest", variation_type_id:board)
 
 # Making the box variations
 Variation.create(name:"", variation_type_id:box)
@@ -155,12 +169,8 @@ Variation.create(name:"Wide", variation_type_id:position)
 # Making the tempos
 Variation.create(name:"", variation_type_id:tempo)
 Variation.create(name:"2-0-2-0", variation_type_id:tempo)
-Variation.create(name:"2-3-1-0", variation_type_id:tempo)
-Variation.create(name:"3-0-1-0", variation_type_id:tempo)
 Variation.create(name:"2-1-1-0", variation_type_id:tempo)
 Variation.create(name:"0-1-0-0", variation_type_id:tempo)
-Variation.create(name:"0-2-0-0", variation_type_id:tempo)
-Variation.create(name:"0-3-0-0", variation_type_id:tempo)
 
 # Making the tensions
 Variation.create(name:"Micro bands", variation_type_id:tension)
@@ -171,6 +181,17 @@ Variation.create(name:"Average bands", variation_type_id:tension)
 Variation.create(name:"Heavy bands", variation_type_id:tension)
 Variation.create(name:"Big chains", variation_type_id:tension)
 Variation.create(name:"Small chains", variation_type_id:tension)
+
+# Making the max effort rep ranges
+Variation.create(name:"1RM", variation_type_id:maxEffortRepRange)
+Variation.create(name:"3RM", variation_type_id:maxEffortRepRange)
+Variation.create(name:"5RM", variation_type_id:maxEffortRepRange)
+
+# Making the pause counts
+Variation.create(name:"1 second pause", variation_type_id:pauseCount)
+Variation.create(name:"2 second pause", variation_type_id:pauseCount)
+Variation.create(name:"3 second pause", variation_type_id:pauseCount)
+
 ################################################################################################
 # Making the weaknesses
 Weakness.create(name: "Hamstrings", bodypart: "Lower body")
@@ -195,47 +216,68 @@ mainMovements.each do |movement|
 	VariationType.find(position).variations.each do |position|
 		VariationType.find(bar).variations.each do |bar|
 			VariationType.find(method).variations.each do |method|
-				# Making the max effort and dynamic effort main movements
-				# Making all the squat exercises
-				if(movement.name == "Squat" && bar.name != "Deadlift bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
-					VariationType.find(box).variations.each do |box|
-						exercise = Exercise.new
-						exercise.variations << movement
-						exercise.variations << method
-						exercise.variations << position
-						exercise.variations << bar
-						exercise.variations << box
-						exercise.weaknesses << Weakness.where(bodypart: "Lower body")
-						exerciseName = method.name + " " + position.name + " stance " + bar.name + " " + box.name + " " + movement.name
-						exercise.name = exerciseName.capitalize
-						exercise.save
+				VariationType.find(maxEffortRepRange).variations.each do |maxEffortRepRange|
+					VariationType.find(pauseCount).variations.each do |pauseCount|
+						# Making the max effort and dynamic effort main movements
+						# Making all the squat exercises
+						if(movement.name == "Squat" && bar.name != "Deadlift bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
+							VariationType.find(box).variations.each do |box|
+								exercise = Exercise.new
+								exerciseName = ""
+								if(method.name == "Max effort")
+									exercise.variations << maxEffortRepRange
+									exercise.variations << pauseCount
+									exerciseName << maxEffortRepRange.name + " " + pauseCount.name + " "
+								end
+								exercise.variations << movement
+								exercise.variations << method
+								exercise.variations << position
+								exercise.variations << bar
+								exercise.variations << box
+								exercise.weaknesses << Weakness.where(bodypart: "Lower body")
+								exerciseName << method.name + " " + position.name + " stance " + bar.name + " " + box.name + " " + movement.name
+								exercise.name = exerciseName.capitalize
+								exercise.save
+							end
+						elsif(movement.name == "Bench press" && bar.name != "Deadlift bar" && bar.name != "Safety squat bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && bar.name != "Cambered bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
+							VariationType.find(board).variations.each do |board|
+								exercise = Exercise.new
+								exerciseName = ""
+								if(method.name == "Max effort")
+									exercise.variations << maxEffortRepRange
+									exercise.variations << pauseCount
+									exerciseName << maxEffortRepRange.name + " " + pauseCount.name + " "
+								end
+								exercise.variations << movement
+								exercise.variations << method
+								exercise.variations << position
+								exercise.variations << bar
+								exercise.variations << board
+								exercise.weaknesses << Weakness.where(bodypart: "Upper body")
+								exerciseName << method.name + " " + position.name + " grip " + bar.name + " " + board.name + " " + movement.name
+								exercise.name = exerciseName.capitalize
+								exercise.save
+							end
+						elsif(movement.name == "Deadlift" && bar.name != "Safety squat bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && bar.name != "Cambered bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
+							VariationType.find(elevation).variations.each do |elevation|
+								exercise = Exercise.new
+								exerciseName = ""
+								if(method.name == "Max effort")
+									exercise.variations << maxEffortRepRange
+									exerciseName << maxEffortRepRange.name + " "
+								end
+								exercise.variations << movement
+								exercise.variations << method
+								exercise.variations << position
+								exercise.variations << bar
+								exercise.variations << elevation
+								exercise.weaknesses << Weakness.where(bodypart: "Lower body")
+								exerciseName << method.name + " " + position.name + " stance " + bar.name + " " + elevation.name + " " + movement.name
+								exercise.name = exerciseName.capitalize
+								exercise.save
+							end					
+						end
 					end
-				elsif(movement.name == "Bench press" && bar.name != "Deadlift bar" && bar.name != "Safety squat bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && bar.name != "Cambered bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
-					VariationType.find(board).variations.each do |board|
-						exercise = Exercise.new
-						exercise.variations << movement
-						exercise.variations << method
-						exercise.variations << position
-						exercise.variations << bar
-						exercise.variations << board
-						exercise.weaknesses << Weakness.where(bodypart: "Upper body")
-						exerciseName = method.name + " " + position.name + " grip " + bar.name + " " + board.name + " " + movement.name
-						exercise.name = exerciseName.capitalize
-						exercise.save
-					end
-				elsif(movement.name == "Deadlift" && bar.name != "Safety squat bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && bar.name != "Cambered bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
-					VariationType.find(elevation).variations.each do |elevation|
-						exercise = Exercise.new
-						exercise.variations << movement
-						exercise.variations << method
-						exercise.variations << position
-						exercise.variations << bar
-						exercise.variations << elevation
-						exercise.weaknesses << Weakness.where(bodypart: "Lower body")
-						exerciseName = method.name + " " + position.name + " stance " + bar.name + " " + elevation.name + " " + movement.name
-						exercise.name = exerciseName.capitalize
-						exercise.save
-					end					
 				end
 			end
 		end

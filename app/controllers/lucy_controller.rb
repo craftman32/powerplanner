@@ -48,6 +48,7 @@ class LucyController < ApplicationController
       end
     end
     $lucyMacrocycle = Macrocycle.last
+    $lucyMacrocycle.users << current_user
     redirect_to lucy_equipment_path
   end
 
@@ -70,11 +71,21 @@ class LucyController < ApplicationController
   def automaxeffort
     @maxLowerExercises = Array.new
     @maxUpperExercises = Array.new
-    Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @maxLowerExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @maxUpperExercises.push(exercise)
+    if $equipment == 'Commercial'
+      Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
+        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Regular bar").any?)
+          @maxLowerExercises.push(exercise)
+        elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Regular bar").any? && exercise.variations.where(name: "").any?)
+          @maxUpperExercises.push(exercise)
+        end
+      end
+    elsif $equipment == 'Powerlifting'
+        Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
+        if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+          @maxLowerExercises.push(exercise)
+        elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+          @maxUpperExercises.push(exercise)
+        end
       end
     end
 
@@ -106,19 +117,32 @@ class LucyController < ApplicationController
     @dynamicLowerSquatExercises = Array.new
     @dynamicLowerDeadliftExercises = Array.new
     @dynamicUpperExercises = Array.new
-    Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Squat").any?)
-        @dynamicLowerSquatExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Deadlift").any?)
-        @dynamicLowerDeadliftExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @dynamicUpperExercises.push(exercise)
+
+    if $equipment == 'Commercial'
+      Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
+        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Squat").any? && exercise.variations.where(name: "Regular bar").any?)
+          @dynamicLowerSquatExercises.push(exercise)
+        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Deadlift").any? && exercise.variations.where(name: "Regular bar").any?)
+          @dynamicLowerDeadliftExercises.push(exercise)
+        elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Regular bar").any? && exercise.variations.where(name: "").any?)
+          @dynamicUpperExercises.push(exercise)
+        end
+      end
+    elsif $equipment == 'Powerlifting'
+      Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
+        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Squat").any?)
+          @dynamicLowerSquatExercises.push(exercise)
+        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Deadlift").any?)
+          @dynamicLowerDeadliftExercises.push(exercise)
+        elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+          @dynamicUpperExercises.push(exercise)
+        end
       end
     end
 
-    @dynamicLowerSquatExercises = @dynamicLowerSquatExercises.sample($macrocycleLength)
-    @dynamicLowerDeadliftExercises = @dynamicLowerDeadliftExercises.sample($macrocycleLength)
-    @dynamicUpperExercises = @dynamicUpperExercises.sample($macrocycleLength)
+    @dynamicLowerSquatExercises = @dynamicLowerSquatExercises.sample($macrocycleLength / 4)
+    @dynamicLowerDeadliftExercises = @dynamicLowerDeadliftExercises.sample($macrocycleLength / 4)
+    @dynamicUpperExercises = @dynamicUpperExercises.sample($macrocycleLength / 4)
 
     $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
       mesocycle.microcycles.each do |microcycle|
@@ -143,35 +167,127 @@ class LucyController < ApplicationController
   end
 
   def autorepetitioneffort
-    redirect_to lucy_repetitioneffort_path
+    @lowerSupplementalExercises = Array.new
+    @lowerAccessoryExercises = Array.new
+    @lowerPrehabExercises = Array.new
+    @upperSupplementalExercises = Array.new
+    @upperAccessoryExercises = Array.new
+    @upperPrehabExercises = Array.new
+    Variation.where(name: "Repetition effort - supplemental").first.exercises.find_each do |exercise|
+      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+        @lowerSupplementalExercises.push(exercise)
+      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+        @upperSupplementalExercises.push(exercise)
+      end
+    end
+    Variation.where(name: "Repetition effort - accessory").first.exercises.find_each do |exercise|
+      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+        @lowerAccessoryExercises.push(exercise)
+      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+        @upperAccessoryExercises.push(exercise)
+      end
+    end
+    Variation.where(name: "Repetition effort - prehab").first.exercises.find_each do |exercise|
+      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+        @lowerPrehabExercises.push(exercise)
+      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+        @upperPrehabExercises.push(exercise)
+      end
+    end
+
+    @lowerSupplementalExercises = @lowerSupplementalExercises.sample($macrocycleLength / 4)
+    @lowerAccessoryExercises = @lowerAccessoryExercises.sample($macrocycleLength / 2)
+    @lowerPrehabExercises = @lowerPrehabExercises.sample($macrocycleLength / 4)
+    @upperSupplementalExercises = @upperSupplementalExercises.sample($macrocycleLength / 4)
+    @upperAccessoryExercises = @upperAccessoryExercises.sample($macrocycleLength / 2)
+    @upperPrehabExercises = @upperPrehabExercises.sample($macrocycleLength / 4)
+
+    $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
+      mesocycle.microcycles.each do |microcycle|
+        microcycle.workouts.each do |workout|
+          if(workout.workout_type == "Max Effort Lower" || workout.workout_type == "Dynamic Effort Lower")
+            workout.exercises << @lowerSupplementalExercises[i]
+            workout.exercises << @lowerAccessoryExercises[i]
+            workout.exercises << @lowerAccessoryExercises[i + 1]
+            workout.exercises << @lowerPrehabExercises[i]
+          elsif(workout.workout_type == "Max Effort Upper" || workout.workout_type == "Dynamic Effort Upper")
+            workout.exercises << @upperSupplementalExercises[i]
+            workout.exercises << @upperAccessoryExercises[i]
+            workout.exercises << @upperAccessoryExercises[i + 1]
+            workout.exercises << @upperPrehabExercises[i]
+          end
+        end
+      end
+    end
+    redirect_to lucy_warmup_path
   end
 
   def repetitioneffort_post
-    redirect_to lucy_repetitioneffort_path
+    redirect_to lucy_warmup_path
   end
 
   def warmup
   end
   
   def autowarmup
-    redirect_to lucy_repetitioneffort_path
+    @lowerWarmupExercises = Array.new
+    @upperWarmupExercises = Array.new
+    Variation.where(name: "Repetition effort - prehab").first.exercises.find_each do |exercise|
+      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+        @lowerWarmupExercises.push(exercise)
+      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+        @upperWarmupExercises.push(exercise)
+      end
+    end
+
+    @lowerWarmupExercises = @lowerWarmupExercises.sample(($macrocycleLength / 4) * 3)
+    @upperWarmupExercises = @upperWarmupExercises.sample(($macrocycleLength / 4) * 3)
+
+    $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
+      mesocycle.microcycles.each do |microcycle|
+        microcycle.workouts.each do |workout|
+          if(workout.workout_type == "Max Effort Lower" || workout.workout_type == "Dynamic Effort Lower")
+            workout.exercises << @lowerWarmupExercises[i]
+            workout.exercises << @lowerWarmupExercises[i + 1]
+            workout.exercises << @lowerWarmupExercises[i + 2]
+          elsif(workout.workout_type == "Max Effort Upper" || workout.workout_type == "Dynamic Effort Upper")
+            workout.exercises << @upperWarmupExercises[i]
+            workout.exercises << @upperWarmupExercises[i + 1]
+            workout.exercises << @upperWarmupExercises[i + 2]
+          end
+        end
+      end
+    end
+    redirect_to lucy_deload_path
   end
 
   def warmup_post
-    redirect_to lucy_repetitioneffort_path
+    redirect_to lucy_deload_path
   end
 
   def deload
   end
   
   def autodeload
-    redirect_to lucy_repetitioneffort_path
+    $lucyMacrocycle.mesocycles.each do |mesocycle|
+      mesocycle.microcycles.last.workouts.each do |workout|
+        workout.exercises.each do |exercise|
+          if(exercise.variations.where(name: "Max effort").any?)
+            workout.exercises.delete(exercise)
+          end
+        end
+      end
+    end
+    redirect_to lucy_finish_path
   end
 
   def deload_post
-    redirect_to lucy_repetitioneffort_path
+    redirect_to lucy_finish_path
   end
 
   def finish
+  end
+
+  def about
   end
 end

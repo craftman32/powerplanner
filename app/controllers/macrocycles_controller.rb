@@ -18,12 +18,20 @@ class MacrocyclesController < ApplicationController
     @maxUpperExercises = Array.new
     
     Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
+      if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Regular bar").any?)
         @maxLowerExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
+      elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Regular bar").any?)
         @maxUpperExercises.push(exercise)
       end
     end
+  end
+
+  def editexercises
+
+  end
+
+  def editexercises_post
+    
   end
  
   def create

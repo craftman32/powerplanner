@@ -36,9 +36,12 @@ Rails.application.routes.draw do
   post 'lucy/deload_post'
 
   get 'lucy/finish'
+  get 'lucy/about'
 
   devise_for :users
   get 'welcome/index'
+  get 'macrocycles/editexercises'
+  post 'macrocycles/editexercises_post'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
