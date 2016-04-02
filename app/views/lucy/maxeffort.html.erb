@@ -20,9 +20,58 @@
 </div>
 <div class="row text-center">
 	<div class="col-md-6">
-		<%= link_to 'Auto Assign', lucy_automaxeffort_path, :class=>'btn btn-primary' %>
+		<%= button_to "Auto Assign", lucy_automaxeffort_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 	<div class="col-md-6">
 		<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
+<%= form_tag("/lucy/maxeffort_post", method: "post") do %>
+	<div  id="exerciseArea" style="display:none">
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h3>
+					Please select <%= $lucyMacrocycle.mesocycles.count * 4 %> Max Lower Body Exercises and <%= $lucyMacrocycle.mesocycles.count * 4 %> Max Upper Body Exercises
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Max Lower Body Squat Exercises</h2>
+				<% @maxLowerSquatExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label id="<%= exercise.name %>">
+						    <%= check_box_tag "maxLowerSquatExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Max Lower Body Deadlift Exercises</h2>
+				<% @maxLowerDeadliftExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "maxLowerDeadliftExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Max Upper Body Bench Press Exercises</h2>
+				<% @maxUpperExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "maxUpperExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+		</div>
+		<div class="row  text-center">
+			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
+		</div>
+	</div>
+<% end %>

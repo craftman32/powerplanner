@@ -20,9 +20,35 @@
 </div>
 <div class="row text-center">
 	<div class="col-md-6">
-		<%= link_to 'Auto Assign', lucy_autodeload_path, :class=>'btn btn-primary' %>
+		<%= button_to "Auto Assign", lucy_autodeload_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 	<div class="col-md-6">
-		<%= link_to 'Manual', lucy_deload_post_path, :class=>'btn btn-default' %>
+		<a href="#" onClick="$('#deloadArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
+<%= form_tag("/lucy/deload_post", method: "post") do %>
+	<div  id="deloadArea" style="display:none">
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h3>
+					Please select a deload option for each mesocycle.
+				</h3>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h2>Deload Options</h2>
+				<% $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i| %>
+					<label>
+						Mesocycle <%= i + 1%>:
+						<br />
+						<%= select_tag("mesocycleDeloadOption#{i}", options_for_select([['- Select the deload option for this mesocycle -', 0],['No max effort exercises', 1], ['No dynamic effort exercises', 2], ['No repetition effort exercises', 3]], 0)) %>
+					</label>
+				<% end %>
+			</div> 
+		</div>
+		<div class="row  text-center">
+			<%= button_tag "Save Deload Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
+		</div>
+	</div>
+<% end %>

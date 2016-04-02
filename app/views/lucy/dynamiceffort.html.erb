@@ -20,9 +20,58 @@
 </div>
 <div class="row text-center">
 	<div class="col-md-6">
-		<%= link_to 'Auto Assign', lucy_autodynamiceffort_path, :class=>'btn btn-primary' %>
+		<%= button_to "Auto Assign", lucy_autodynamiceffort_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 	<div class="col-md-6">
-		<%= link_to 'Manual', lucy_dynamiceffort_post_path, :class=>'btn btn-default' %>
+		<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
+<%= form_tag("/lucy/dynamiceffort_post", method: "post") do %>
+	<div  id="exerciseArea" style="display:none">
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h3>
+					Please select <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Lower Body Squat Exercises, <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Lower Body Deadlift Exercises, and <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Upper Body Bench Press Exercises
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Dynamic Lower Body Squat Exercises</h2>
+				<% @dynamicLowerSquatExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "dynamicLowerSquatExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Dynamic Lower Body Deadlift Exercises</h2>
+				<% @dynamicLowerDeadliftExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "dynamicLowerDeadliftExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Dynamic Upper Body Bench Press Exercises</h2>
+				<% @dynamicUpperExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "dynamicUpperExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+		</div>
+		<div class="row  text-center">
+			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
+		</div>
+	</div>
+<% end %>

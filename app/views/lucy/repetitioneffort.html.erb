@@ -20,9 +20,93 @@
 </div>
 <div class="row text-center">
 	<div class="col-md-6">
-		<%= link_to 'Auto Assign', lucy_autorepetitioneffort_path, :class=>'btn btn-primary' %>
+		<%= button_to "Auto Assign", lucy_autorepetitioneffort_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 	<div class="col-md-6">
-		<%= link_to 'Manual', lucy_repetitioneffort_post_path, :class=>'btn btn-default' %>
+		<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
+<%= form_tag("/lucy/repetitioneffort_post", method: "post") do %>
+	<div  id="exerciseArea" style="display:none">
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h3>
+					Please select <%= $lucyMacrocycle.mesocycles.count %> supplemental exercises for each body part, <%= $lucyMacrocycle.mesocycles.count * 2 %> accessory exercises for each body part, and <%= $lucyMacrocycle.mesocycles.count %> prehab exercises for each body part.
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Repetition Lower Body Supplemental Exercises</h2>
+				<% @lowerSupplementalExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "lowerSupplementalExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Repetition Lower Body Accessory Exercises</h2>
+				<% @lowerAccessoryExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "lowerAccessoryExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Repetition Lower Body Prehab Exercises</h2>
+				<% @lowerPrehabExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "lowerPrehabExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Repetition Upper Body Supplemental Exercises</h2>
+				<% @upperSupplementalExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "upperSupplementalExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Repetition Upper Body Accessory Exercises</h2>
+				<% @upperAccessoryExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "upperAccessoryExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-4">
+				<h2>Repetition Upper Body Prehab Exercises</h2>
+				<% @upperPrehabExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "upperPrehabExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+		</div>
+		<div class="row  text-center">
+			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
+		</div>
+	</div>
+<% end %>

@@ -26,28 +26,66 @@
 
 <h3>Workout Details</h3>
 <p>
-	<% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
-		Mesocycle <%= index + 1%>
-	  		<% mesocycle.microcycles.each_with_index do |microcycle, index| %>
-	  			<p>
-	  				<strong>Week <%= index + 1 %></strong>
-	  			</p>
-	  			<div class="row">
-		  			<% microcycle.workouts.each_with_index do |workout, index| %>
-		  				<div class="col-xs-6 col-md-3">
-		  					Workout <%= index + 1 %>: <%= workout.workout_type %>
-		  					<br />
-		  					<%= workout.workout_start_date.strftime("%B %d, %Y") %>
-		  					<% workout.exercises.each_with_index do |exercise, index| %>
-			  					<p>
-			  						<%= exercise.name %>
-			  					</p>
-			  				<% end %>
-		  				</div>
-		  			<% end %>
-	  			</div>
-	  		<% end %>
-  	<% end %>
+  <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
+    <h3>Mesocycle <%= index + 1%></h3>
+        <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>Week <%= index + 1 %></strong></div>
+            <div class="panel-body">
+              <div class="row">
+                <% microcycle.workouts.each_with_index do |workout, index| %>
+                  <div class="col-xs-6 col-md-3">
+                    <h4>Workout <%= index + 1 %>: <%= workout.workout_type %></h4>
+                    <br />
+                    <%= workout.workout_start_date.strftime("%B %d, %Y") %>
+                    <br />
+                    <p>
+                    	<strong>Main Movement</strong>
+                    	<br />
+                    	<% workout.exercises.each do |exercise| %>
+                    		<% if exercise.variations.where(name: "Max effort").any? || exercise.variations.where(name: "Dynamic effort").any? %>
+                    			<%= exercise.name %>
+                    			<br />
+                    		<% end %>
+                    	<% end %>
+                    </o>
+                    <p>
+                    	<strong>Supplemental Movement</strong>
+                    	<br />
+                    	<% workout.exercises.each do |exercise| %>
+                    		<% if exercise.variations.where(name: "Repetition effort - supplemental").any? %>
+                    			<%= exercise.name %>
+                    			<br />
+                    		<% end %>
+                    	<% end %>
+                    </o>
+                    <p>
+                    	<strong>Accessory Movements</strong>
+                    	<br />
+                    	<% workout.exercises.each do |exercise| %>
+                    		<% if exercise.variations.where(name: "Repetition effort - accessory").any? %>
+                    			<%= exercise.name %>
+                    			<br />
+                    		<% end %>
+                    	<% end %>
+                    </o>
+                    <p>
+                    	<strong>Prehab Movements</strong>
+                    	<br />
+                    	<% workout.exercises.each do |exercise| %>
+                    		<% if exercise.variations.where(name: "Repetition effort - prehab").any? %>
+                    			<%= exercise.name %>
+                    			<br />
+                    		<% end %>
+                    	<% end %>
+                    </o>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+    <% end %>
 </p>
 
 <h3>Users Following This Macrocycle</h3>

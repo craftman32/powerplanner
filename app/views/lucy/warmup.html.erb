@@ -20,9 +20,47 @@
 </div>
 <div class="row text-center">
 	<div class="col-md-6">
-		<%= link_to 'Auto Assign', lucy_autowarmup_path, :class=>'btn btn-primary' %>
+		<%= button_to "Auto Assign", lucy_autowarmup_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 	<div class="col-md-6">
-		<%= link_to 'Manual', lucy_warmup_post_path, :class=>'btn btn-default' %>
+		<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
+<%= form_tag("/lucy/warmup_post", method: "post") do %>
+	<div  id="exerciseArea" style="display:none">
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h3>
+					Please select <%= $lucyMacrocycle.mesocycles.count * 3 %> warmup exercises for each body part.
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<h2>Lower Body Warmup Exercises</h2>
+				<% @lowerWarmupExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "lowerWarmupExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+			<div class="col-md-6">
+				<h2>Upper Body Warmup Exercises</h2>
+				<% @upperWarmupExercises.each do |exercise| %>
+					<div class="checkbox">
+						<label>
+						    <%= check_box_tag "upperWarmupExercises[]", exercise.id %>
+						    <%= exercise.name %>
+						</label>
+				    </div>
+				<% end %>
+			</div> 
+		</div>
+		<div class="row  text-center">
+			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
+		</div>
+	</div>
+<% end %>

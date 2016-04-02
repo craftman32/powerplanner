@@ -23,11 +23,64 @@
 	</div>
 </div>
 
-<h3>This Week's Training</h3>
-<% if current_user.macrocycles.any? %>
-<% current_user.macrocycles.last do |macrocycle| %>
-		<%= macrocycle.name %>
-	<% end %>
+<% if @currentMicrocycle != "" %>
+	<p>
+	  <div class="panel panel-default">
+	    <div class="panel-heading"><strong>This Week's Training</strong></div>
+	    <div class="panel-body">
+	      <div class="row">
+	        <% @currentMicrocycle.workouts.each_with_index do |workout, index| %>
+	          <div class="col-xs-6 col-md-3">
+	            <h4>Workout <%= index + 1 %>: <%= workout.workout_type %></h4>
+	            <br />
+	            <%= workout.workout_start_date.strftime("%B %d, %Y") %>
+	            <br />
+	            <p>
+	            	<strong>Main Movement</strong>
+	            	<br />
+	            	<% workout.exercises.each do |exercise| %>
+	            		<% if exercise.variations.where(name: "Max effort").any? || exercise.variations.where(name: "Dynamic effort").any? %>
+	            			<%= exercise.name %>
+	            			<br />
+	            		<% end %>
+	            	<% end %>
+	            </o>
+	            <p>
+	            	<strong>Supplemental Movement</strong>
+	            	<br />
+	            	<% workout.exercises.each do |exercise| %>
+	            		<% if exercise.variations.where(name: "Repetition effort - supplemental").any? %>
+	            			<%= exercise.name %>
+	            			<br />
+	            		<% end %>
+	            	<% end %>
+	            </o>
+	            <p>
+	            	<strong>Accessory Movements</strong>
+	            	<br />
+	            	<% workout.exercises.each do |exercise| %>
+	            		<% if exercise.variations.where(name: "Repetition effort - accessory").any? %>
+	            			<%= exercise.name %>
+	            			<br />
+	            		<% end %>
+	            	<% end %>
+	            </o>
+	            <p>
+	            	<strong>Prehab Movements</strong>
+	            	<br />
+	            	<% workout.exercises.each do |exercise| %>
+	            		<% if exercise.variations.where(name: "Repetition effort - prehab").any? %>
+	            			<%= exercise.name %>
+	            			<br />
+	            		<% end %>
+	            	<% end %>
+	            </o>
+	          </div>
+	        <% end %>
+	      </div>
+	    </div>
+	  </div>
+	</p>
 <% else %>
 	<p>
 		You currently are not following a training plan made in the Power Planner. You can make one using <%= link_to 'Lucy', lucy_start_path, :class=>'btn btn-primary' %> or <%= link_to 'Manual Cycle Builder', new_macrocycle_path, :class=>'btn btn-primary' %>
