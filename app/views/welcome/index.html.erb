@@ -23,11 +23,6 @@
 	</div>
 </div>
 
-<%= form_tag(welcome_index_path, :method => "get", id: "search-form") do %>
-	<!-- text field tag=action,args,identifier,placeholdertext... -->
-	<%= text_field_tag :search, params[:search], class: "search-query", placeholder: "namesearch", type: "search", data: {autocomplete: welcome_index_path} %>  
-	<%= submit_tag "Search" %>
-<%end%>
 <script type="text/javascript" charset="utf-8">
   $('#search').bind('railsAutocomplete.select', function(event, data){
   $('#search-form').submit()
