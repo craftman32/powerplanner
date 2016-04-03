@@ -13,25 +13,27 @@ class MacrocyclesController < ApplicationController
  
   def edit
     @macrocycle = Macrocycle.find(params[:id])
-
+    @maxLowerSquatExercises = Array.new
+    @maxLowerDeadliftExercises = Array.new
     @maxLowerExercises = Array.new
     @maxUpperExercises = Array.new
-    
-    Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Regular bar").any?)
-        @maxLowerExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Regular bar").any?)
-        @maxUpperExercises.push(exercise)
+    @squatId = Variation.where(name: "Squat")
+    @deadliftId = Variation.where(name: "Deadlift")
+    @benchId = Variation.where(name: "Bench press")
+
+    @macrocycle.mesocycles.each_with_index do |mesocycle, i|
+      mesocycle.microcycles.each do |microcycle|
+        microcycle.workouts.each do |workout|
+          workout.exercises.each do |exercise|
+            if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Max effort").any?)
+              @maxLowerExercises.push(exercise)
+            elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Max effort").any?)
+              @maxUpperExercises.push(exercise)
+            end
+          end
+        end
       end
     end
-  end
-
-  def editexercises
-
-  end
-
-  def editexercises_post
-    
   end
  
   def create

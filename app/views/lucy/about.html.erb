@@ -1,1 +1,27 @@
 <h1>About The Real Life Lucy</h1>
+<div class="jumbotron text-center">
+	<p>
+		<%= image_tag "lucy1.jpeg" %>
+		<br />
+		<em>"Oh I love you I love you I love you!"</em>
+	</p>
+	<p>
+		Lucy is named after Lucille Staisiunas: my loving grandma who passed away in April 2013. She lived two blocks away from my home and was like a second mother to me. Following her passing I wanted to devote myself to a greater purpose, so I picked a powerlifting meet two months away and I started to train with little previous lifting experience. I know she would be very proud of my accomplishments on the platform, but she would yell at me for lifting so much! 
+	</p>
+</div>
+<div class="row  text-center">
+	<div class="col-md-6">
+		<h3>View Your Completed Macrocycle</h3>
+	</div>
+	<div class="col-md-6">
+		<h3>Learn About the Application Developer</h3>
+	</div>
+</div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<%= button_to "View Macrocycle", $lucyMacrocycle, :class => "btn btn-primary", :method => :get, data: {disable_with: "Loading macrocyle please wait..."} %>
+	</div>
+	<div class="col-md-6">
+		<%= link_to 'About The Knucklehead', welcome_about_path, :class=>'btn btn-default' %>
+	</div>
+</div>

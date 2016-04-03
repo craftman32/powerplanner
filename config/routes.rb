@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'exercise/list'
-
   # Setting the routes for Lucy
   get 'lucy/start'
 
@@ -40,8 +38,8 @@ Rails.application.routes.draw do
 
   devise_for :users
   get 'welcome/index'
-  get 'macrocycles/editexercises'
-  post 'macrocycles/editexercises_post'
+  get 'welcome/about'
+  get 'exercises/typeahead/:query' => 'exercises#typeahead'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -57,8 +55,10 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   resources :exercises
-  resources :macrocycles
-  resources :workouts
+  resources :macrocycles do
+    get :autocomplete_macrocycle_name, :on => :collection
+    resources :mesocycles, only: [:edit, :update] 
+  end
   
   # Example resource route with options:
   #   resources :products do

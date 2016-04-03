@@ -26,47 +26,96 @@
   </p>
 
   <% if @macrocycle.mesocycles.any? %>
-    <h3>Workout Details</h3>
+    <h3>Exercise Details</h3>
     <p>
       <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
         <h3>Mesocycle <%= index + 1%></h3>
+        <div class="row text-center">
+          <h4>Max Effort Exercises</h4>
+          <div class="col-md-6">
+            <strong>Lower Body</strong>
+            <br />
             <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
-              <div class="panel panel-default">
-                <div class="panel-heading"><strong>Week <%= index + 1 %></strong></div>
-                <div class="panel-body">
-                  <div class="row">
-                    <% microcycle.workouts.each_with_index do |workout, index| %>
-                      <div class="col-xs-6 col-md-3">
-                        Workout <%= index + 1 %>: <%= workout.workout_type %>
-                        <br />
-                        <%= workout.workout_start_date.strftime("%B %d, %Y") %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+              <% microcycle.workouts.each do |workout| %>
+                <% workout.exercises.each do |exercise| %>
+                  <% if exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Max effort").any? %>
+                    <%= exercise.name %>
+                    <br />
+                  <% end %>
+                <% end %>
+              <% end %>
             <% end %>
-        <% end %>
-    </p>
-    <p>
-      Max Lower Exercises:
-      <br />
-      <% @maxLowerExercises.each do |exercise| %>
-        <%= exercise.name %>
-        <br />
+          </div>
+          <div class="col-md-6">
+            <strong>Upper Body</strong>
+            <br />
+            <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
+              <% microcycle.workouts.each do |workout| %>
+                <% workout.exercises.each do |exercise| %>
+                  <% if exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Max effort").any? %>
+                    <%= exercise.name %>
+                    <br />
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div class="row text-center">
+          <h4>Dynamic Effort Exercises</h4>
+          <div class="col-md-6">
+            <strong>Lower Body</strong>
+            <br />
+            <% mesocycle.microcycles.first.workouts.each do |workout| %>
+              <% workout.exercises.each do |exercise| %>
+                <% if exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(name: "Dynamic effort").any? %>
+                  <%= exercise.name %>
+                  <br />
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-6">
+            <strong>Upper Body</strong>
+            <br />
+            <% mesocycle.microcycles.first.workouts.each do |workout| %>
+              <% workout.exercises.each do |exercise| %>
+                <% if exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(name: "Dynamic effort").any? %>
+                  <%= exercise.name %>
+                  <br />
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div class="row text-center">
+          <h4>Repetition Effort Exercises</h4>
+          <div class="col-md-6">
+            <strong>Lower Body</strong>
+            <br />
+            <% mesocycle.microcycles.first.workouts.each do |workout| %>
+              <% workout.exercises.each do |exercise| %>
+                <% if exercise.weaknesses.where(bodypart: "Lower body").any? && (exercise.variations.where(name: "Repetition effort - supplemental") || exercise.variations.where(name: "Repetition effort - accessory") || exercise.variations.where(name: "Repetition effort - supplemental"))  %>
+                  <%= exercise.name %>
+                  <br />
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-6">
+            <strong>Upper Body</strong>
+            <br />
+            <% mesocycle.microcycles.first.workouts.each do |workout| %>
+              <% workout.exercises.each do |exercise| %>
+                <% if exercise.weaknesses.where(bodypart: "Upper body").any? && (exercise.variations.where(name: "Repetition effort - supplemental") || exercise.variations.where(name: "Repetition effort - accessory") || exercise.variations.where(name: "Repetition effort - supplemental")) %>
+                  <%= exercise.name %>
+                  <br />
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
       <% end %>
-    </p>
-    <p>
-      Max Upper Exercises:
-      <br />
-      <% @maxUpperExercises.each do |exercise| %>
-        <%= exercise.name %>
-        <br />
-      <% end %>
-    </p>
-    <p>
-      Put checkboxes here
-    </p>
   <% else %>
     <p>
       <%= f.label :length %><br>

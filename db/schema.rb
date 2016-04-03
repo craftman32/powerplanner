@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 20160309211755) do
   create_table "exercises_workouts", id: false, force: :cascade do |t|
     t.integer "workout_id",  null: false
     t.integer "exercise_id", null: false
+    t.integer "rep_count"
+    t.float "weight"
+  end
+
+  create_table "sets", id: false, force: :cascade do |t|
+    t.integer "workout_id",  null: false
+    t.integer "exercise_id", null: false
+    t.integer "rep_count"
+    t.float "weight"
   end
 
   add_index "exercises_workouts", ["exercise_id", "workout_id"], name: "index_exercises_workouts_on_exercise_id_and_workout_id"
@@ -124,14 +133,6 @@ ActiveRecord::Schema.define(version: 20160309211755) do
   create_table "weaknesses", force: :cascade do |t|
     t.string   "name"
     t.string   "bodypart"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "workout_sets", force: :cascade do |t|
-    t.integer  "rep_count"
-    t.float    "weight"
-    t.integer  "workout_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -99,5 +99,5 @@
   	<% end %>
 </p>
 
-<%= link_to 'Edit', edit_macrocycle_path(@macrocycle), :class=>'btn btn-primary' %>
+<%= button_to "Edit Macrocycle", edit_macrocycle_path(@macrocycle), :class => "btn btn-primary", :method => :get, data: {disable_with: "Loading editor please wait..."} %>
 <%= link_to 'Back', macrocycles_path %>

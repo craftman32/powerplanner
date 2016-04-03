@@ -5,7 +5,8 @@ class WelcomeController < ApplicationController
 	@endDate = @d.at_beginning_of_week + 7
 	@currentMicrocycle = ""
 	if current_user.macrocycles.any?
-		current_user.macrocycles.last.mesocycles.each do |mesocycle|
+		@currentMacrocycle = current_user.macrocycles.last
+		@currentMacrocycle.mesocycles.each do |mesocycle|
 			mesocycle.microcycles.each do |microcycle|
 				if (microcycle.microcycle_start_date >= @beginDate && microcycle.microcycle_start_date <= @endDate)
 					@currentMicrocycle = microcycle
@@ -13,5 +14,8 @@ class WelcomeController < ApplicationController
 			end
 		end
 	end
+  end
+
+  def about
   end
 end
