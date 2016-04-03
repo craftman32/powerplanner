@@ -13,30 +13,33 @@
 
 ActiveRecord::Schema.define(version: 20160309211755) do
 
-  create_table "Exercises_Variations", id: false, force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "exercises_variations", id: false, force: :cascade do |t|
     t.integer "exercise_id",  null: false
     t.integer "variation_id", null: false
   end
 
-  add_index "Exercises_Variations", ["exercise_id", "variation_id"], name: "index_Exercises_Variations_on_exercise_id_and_variation_id"
-  add_index "Exercises_Variations", ["variation_id", "exercise_id"], name: "index_Exercises_Variations_on_variation_id_and_exercise_id"
+  add_index "exercises_variations", ["exercise_id", "variation_id"], name: "index_exercises_variations_on_exercise_id_and_variation_id", using: :btree
+  add_index "exercises_variations", ["variation_id", "exercise_id"], name: "index_exercises_variations_on_variation_id_and_exercise_id", using: :btree
 
-  create_table "Exercises_Weaknesses", id: false, force: :cascade do |t|
+  create_table "exercises_weaknesses", id: false, force: :cascade do |t|
     t.integer "exercise_id", null: false
     t.integer "weakness_id", null: false
     t.integer "rank"
   end
 
-  add_index "Exercises_Weaknesses", ["exercise_id", "weakness_id"], name: "index_Exercises_Weaknesses_on_exercise_id_and_weakness_id"
-  add_index "Exercises_Weaknesses", ["weakness_id", "exercise_id"], name: "index_Exercises_Weaknesses_on_weakness_id_and_exercise_id"
+  add_index "exercises_weaknesses", ["exercise_id", "weakness_id"], name: "index_exercises_weaknesses_on_exercise_id_and_weakness_id", using: :btree
+  add_index "exercises_weaknesses", ["weakness_id", "exercise_id"], name: "index_exercises_weaknesses_on_weakness_id_and_exercise_id", using: :btree
 
-  create_table "Macrocycles_Users", id: false, force: :cascade do |t|
+  create_table "macrocycles_users", id: false, force: :cascade do |t|
     t.integer "user_id",       null: false
     t.integer "macrocycle_id", null: false
   end
 
-  add_index "Macrocycles_Users", ["macrocycle_id", "user_id"], name: "index_Macrocycles_Users_on_macrocycle_id_and_user_id"
-  add_index "Macrocycles_Users", ["user_id", "macrocycle_id"], name: "index_Macrocycles_Users_on_user_id_and_macrocycle_id"
+  add_index "macrocycles_users", ["macrocycle_id", "user_id"], name: "index_macrocycles_users_on_macrocycle_id_and_user_id", using: :btree
+  add_index "macrocycles_users", ["user_id", "macrocycle_id"], name: "index_macrocycles_users_on_user_id_and_macrocycle_id", using: :btree
 
   create_table "exercises", force: :cascade do |t|
     t.string   "name"
@@ -48,19 +51,10 @@ ActiveRecord::Schema.define(version: 20160309211755) do
   create_table "exercises_workouts", id: false, force: :cascade do |t|
     t.integer "workout_id",  null: false
     t.integer "exercise_id", null: false
-    t.integer "rep_count"
-    t.float "weight"
   end
 
-  create_table "sets", id: false, force: :cascade do |t|
-    t.integer "workout_id",  null: false
-    t.integer "exercise_id", null: false
-    t.integer "rep_count"
-    t.float "weight"
-  end
-
-  add_index "exercises_workouts", ["exercise_id", "workout_id"], name: "index_exercises_workouts_on_exercise_id_and_workout_id"
-  add_index "exercises_workouts", ["workout_id", "exercise_id"], name: "index_exercises_workouts_on_workout_id_and_exercise_id"
+  add_index "exercises_workouts", ["exercise_id", "workout_id"], name: "index_exercises_workouts_on_exercise_id_and_workout_id", using: :btree
+  add_index "exercises_workouts", ["workout_id", "exercise_id"], name: "index_exercises_workouts_on_workout_id_and_exercise_id", using: :btree
 
   create_table "macrocycles", force: :cascade do |t|
     t.string   "name"
@@ -106,16 +100,16 @@ ActiveRecord::Schema.define(version: 20160309211755) do
     t.float    "deadliftmax"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "users_weaknesses", id: false, force: :cascade do |t|
     t.integer "user_id",     null: false
     t.integer "weakness_id", null: false
   end
 
-  add_index "users_weaknesses", ["user_id", "weakness_id"], name: "index_users_weaknesses_on_user_id_and_weakness_id"
-  add_index "users_weaknesses", ["weakness_id", "user_id"], name: "index_users_weaknesses_on_weakness_id_and_user_id"
+  add_index "users_weaknesses", ["user_id", "weakness_id"], name: "index_users_weaknesses_on_user_id_and_weakness_id", using: :btree
+  add_index "users_weaknesses", ["weakness_id", "user_id"], name: "index_users_weaknesses_on_weakness_id_and_user_id", using: :btree
 
   create_table "variation_types", force: :cascade do |t|
     t.string   "name"
