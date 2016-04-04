@@ -1,4 +1,9 @@
 <h1>Macrocycle Details</h1>
+<% if @macrocycle.name.downcase == 'suh dude' %>
+  <p>
+    <img src="<%= asset_path 'suhdude2.jpg' %>">
+  </p>
+<% end %>
 <p>
   <strong>Name:</strong>
   <%= @macrocycle.name %>

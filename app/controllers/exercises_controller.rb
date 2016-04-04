@@ -1,6 +1,6 @@
 class ExercisesController < ApplicationController
   def index
-    @exercises = Exercise.all
+    @exercises = Exercise.paginate(page: params[:page],:per_page => 25)
   end
 
   def show
@@ -15,17 +15,6 @@ class ExercisesController < ApplicationController
   def edit
     @variation_types = VariationType.all
     @exercise = Exercise.find(params[:id])
-    @bar = VariationType.where(name: "Bar")
-    @board = VariationType.where(name:"Board")
-    @boxe = VariationType.where(name:"Box")
-    @elevation = VariationType.where(name:"Elevation")
-    @equipment = VariationType.where(name:"Equipment")
-    @machine = VariationType.where(name:"Machine")
-    @method = VariationType.where(name:"Method")
-    @movement = VariationType.where(name:"Movement")
-    @position = VariationType.where(name:"Position")
-    @tempo = VariationType.where(name:"Tempo")
-    @tension = VariationType.where(name:"Tension")
   end
  
   def create

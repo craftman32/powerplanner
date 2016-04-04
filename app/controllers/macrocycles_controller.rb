@@ -1,6 +1,6 @@
 class MacrocyclesController < ApplicationController
   def index
-    @macrocycles = Macrocycle.all
+    @macrocycles = Macrocycle.paginate(page: params[:page],:per_page => 10)
   end
  
   def show

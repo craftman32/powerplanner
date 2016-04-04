@@ -1,15 +1,12 @@
 <h1>Exercises</h1>
 
-<p>
-  <%= link_to 'New Exercise', new_exercise_path, :class=>'btn btn-success' %>
-</p>
+<%= will_paginate @exercises %>
 <table class="table">
   <tr>
     <th>Name</th>
     <th>Created On</th>
     <th>Actions</th>
   </tr>
- 
   <% @exercises.each do |exercise| %>
     <tr>
       <td>
@@ -20,9 +17,9 @@
       </td>
       <td>
         <%= link_to 'Details', exercise_path(exercise), :class=>'btn btn-default' %>
-      	<%= link_to 'Edit', edit_exercise_path(exercise), :class=>'btn btn-primary' %>
         <%= link_to 'Delete', exercise_path(exercise), :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
       </td>
     </tr>
   <% end %>
 </table>
+<%= will_paginate @exercises %>

@@ -2,6 +2,8 @@
 <p>
   <%= link_to 'New Macrocycle', new_macrocycle_path, :class=>'btn btn-success' %>
 </p>
+
+<%= will_paginate @macrocycles %>
 <table class="table">
   <tr>
     <th>Name</th>
@@ -33,3 +35,4 @@
     </tr>
   <% end %>
 </table>
+<%= will_paginate @macrocycles %>

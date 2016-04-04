@@ -4,7 +4,6 @@ gem 'devise'
 gem 'bootstrap-sass'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
-# Use sqlite3 as the database for Active Record
 # 4-3-2016 Changed the database to Postgres for Heroku
 gem 'pg'
 # Use SCSS for stylesheets
@@ -28,6 +27,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # The gems used for autocomplete
 gem 'rails4-autocomplete'
 gem 'jquery-ui-rails'
+
+# A gem for pagination
+gem 'will_paginate'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
