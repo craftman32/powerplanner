@@ -7,28 +7,26 @@
 <div class="row text-center">
 	<div class="col-md-4">
 		<p>
+			<%= link_to 'Yes', lucy_weaknesses_path, :class=>'btn btn-primary' %>
+		</p>
+		<p>
 			Please help me design my own training cycle!
 		</p>
 	</div>
 	<div class="col-md-4">
+		<p>
+			<%= link_to 'Manual', new_macrocycle_path, :class=>'btn btn-default' %>
+		</p>
 		<p>
 			No thanks, I prefer to design a cycle by myself using the manual cycle builder
 		</p>
 	</div>
 	<div class="col-md-4">
 		<p>
+			<%= link_to 'No Thanks', welcome_index_path, :class=>'btn btn-danger' %>
+		</p>
+		<p>
 			No thanks, I just wanna get toned for summer
 		</p>
-	</div>
-</div>
-<div class="row text-center">
-	<div class="col-md-4">
-		<%= link_to 'Yes', lucy_weaknesses_path, :class=>'btn btn-primary' %>
-	</div>
-	<div class="col-md-4">
-		<%= link_to 'Manual', new_macrocycle_path, :class=>'btn btn-default' %>
-	</div>
-	<div class="col-md-4">
-		<%= link_to 'No Thanks', welcome_index_path, :class=>'btn btn-danger' %>
 	</div>
 </div>

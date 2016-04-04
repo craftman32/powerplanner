@@ -39,7 +39,7 @@
             <div class="panel-body">
               <div class="row">
                 <% microcycle.workouts.each_with_index do |workout, index| %>
-                  <div class="col-xs-6 col-md-3">
+                  <div class="col-xs-12 col-md-3">
                     <h4>Workout <%= index + 1 %>: <%= workout.workout_type %></h4>
                     <br />
                     <%= workout.workout_start_date.strftime("%B %d, %Y") %>

@@ -8,21 +8,13 @@
 	<div class="col-md-6">
 		<h3>View Your Completed Macrocycle</h3>
 		<p>
-			
+			<%= button_to "View Macrocycle", $lucyMacrocycle, :class => "btn btn-primary", :method => :get, data: {disable_with: "Loading macrocyle please wait..."} %>
 		</p>
 	</div>
 	<div class="col-md-6">
 		<h3>Learn About the Real Life Lucy</h3>
 		<p>
-			
+			<%= link_to 'About Lucy', lucy_about_path, :class=>'btn btn-default' %>
 		</p>
-	</div>
-</div>
-<div class="row text-center">
-	<div class="col-md-6">
-		<%= button_to "View Macrocycle", $lucyMacrocycle, :class => "btn btn-primary", :method => :get, data: {disable_with: "Loading macrocyle please wait..."} %>
-	</div>
-	<div class="col-md-6">
-		<%= link_to 'About Lucy', lucy_about_path, :class=>'btn btn-default' %>
 	</div>
 </div>

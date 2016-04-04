@@ -8,22 +8,20 @@
 	<div class="col-md-6">
 		<h3>Automatically Assign Me Max Effort Exercises</h3>
 		<p>
+			<%= button_to "Auto Assign", lucy_automaxeffort_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
+		</p>
+		<p>
 			I will automatically enter max effort exercises for you based on your weaknesses, timeframe, and available equipment.
 		</p>
 	</div>
 	<div class="col-md-6">
 		<h3>Manually Select Max Effort Exercises</h3>
 		<p>
+			<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
+		</p>
+		<p>
 			I will give you a list of max effort exercises for you to choose from based on your weaknesses, timeframe, and available equipment.
 		</p>
-	</div>
-</div>
-<div class="row text-center">
-	<div class="col-md-6">
-		<%= button_to "Auto Assign", lucy_automaxeffort_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
-	</div>
-	<div class="col-md-6">
-		<a href="#" onClick="$('#exerciseArea').show();return false;" class="btn btn-default">Manual</a>
 	</div>
 </div>
 <%= form_tag("/lucy/maxeffort_post", method: "post") do %>

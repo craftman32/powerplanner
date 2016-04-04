@@ -8,18 +8,20 @@
 	<div class="col-md-6">
 		<h3>Commercial Gym</h3>
 		<p>
+			<%= button_to "Select this option", lucy_commercialequipment_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
+		</p>
+		<p>
 			I train at a commercial gym with basic barbells, machines, and equipment.
 		</p>
-		<br />
-		<%= button_to "Select this option", lucy_commercialequipment_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 	<div class="col-md-6">
 		<h3>Powerlifting Gym</h3>
 		<p>
+			<%= button_to "Select this option", lucy_powerliftingequipment_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
+		</p>
+		<p>
 			I train at a powerlifting gym with specialty bars, machines, and equipment.
 		</p>
-		<br />
-		<%= button_to "Select this option", lucy_powerliftingequipment_path, :class => "btn btn-primary", :method => :get, data: {disable_with: "Saving options please wait..."} %>
 	</div>
 </div>
 

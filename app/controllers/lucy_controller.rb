@@ -4,8 +4,8 @@ class LucyController < ApplicationController
   end
 
   def weaknesses
-  	@lowerweaknesses = Weakness.where(bodypart: 'Lower body').paginate(page: params[:page],:per_page => 3)
-  	@upperweaknesses = Weakness.where(bodypart: 'Upper body').paginate(page: params[:page],:per_page => 3)
+  	@lowerweaknesses = Weakness.where(bodypart: 'Lower body')
+  	@upperweaknesses = Weakness.where(bodypart: 'Upper body')
   end
 
   def autoweaknesses
