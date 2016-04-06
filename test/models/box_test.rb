@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VariationTypeTest < ActiveSupport::TestCase
+class BoxTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

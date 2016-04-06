@@ -4,6 +4,14 @@ class MacrocyclesController < ApplicationController
   end
  
   def show
+    @maxEffortId = Exercisemethod.find_by_name("Max effort").id
+    @dynamicEffortId = Exercisemethod.find_by_name("Dynamic effort").id
+    @supplementalId = Exercisemethod.find_by_name("Repetition effort - supplemental").id
+    @accessoryId = Exercisemethod.find_by_name("Repetition effort - accessory").id
+    @prehabId = Exercisemethod.find_by_name("Repetition effort - prehab").id
+    @warmupId = Exercisemethod.find_by_name("Warmup").id
+    
+    @cycleWeek = 1
     @macrocycle = Macrocycle.find(params[:id])
   end
  

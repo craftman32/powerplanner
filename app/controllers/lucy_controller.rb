@@ -37,6 +37,7 @@ class LucyController < ApplicationController
   end
 
   def timeframe_post
+    current_user.macrocycles.clear
     @macrocycle = Macrocycle.new
     $macrocycleLength = Integer(params[:length])
     start_date = Date.civil(params[:macrocycle_start_date][:year].to_i, params[:macrocycle_start_date][:month].to_i, params[:macrocycle_start_date][:day].to_i)
@@ -77,65 +78,50 @@ class LucyController < ApplicationController
   end
 
   def maxeffort
-    @maxLowerSquatExercises = Array.new
-    @maxLowerDeadliftExercises = Array.new
-    @maxUpperExercises = Array.new
-    @regularBarId = Variation.where(name: "Regular bar")
-    @noBoardId = Variation.where(name: "")
-    @squatId = Variation.where(name: "Squat")
-    @deadliftId = Variation.where(name: "Deadlift")
-    @floorId = Variation.where(name:"Floor")
-    @pinAtChestId = Variation.where(name:"Pin at the chest")
-    @pinAboveChestId = Variation.where(name:"Pin 3 inches above the chest")
-    if $equipment == 'Commercial'
-      Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @squatId).any? && exercise.variations.where(id: @regularBarId).any?)
-          @maxLowerSquatExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @deadliftId).any? && exercise.variations.where(id: @regularBarId).any?)
-          @maxLowerDeadliftExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(id: @regularBarId).any? && (exercise.variations.where(id: @noBoardId).any? || exercise.variations.where(id: @floorId).any? || exercise.variations.where(id: @pinAtChestId).any? || exercise.variations.where(id: @pinAboveChestId).any?))
-          @maxUpperExercises.push(exercise)
-        end
-      end
-    elsif $equipment == 'Powerlifting'
-      Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @squatId).any?)
-          @maxLowerSquatExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @deadliftId).any?)
-          @maxLowerDeadliftExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-          @maxUpperExercises.push(exercise)
-        end
-      end
+    @maxEffortId = Exercisemethod.find_by_name("Max effort").id
+    @regularBarId = Bar.find_by_name("Regular bar").id
+    @noBoardId = Board.where(name: "")
+    @floorId = Board.where(name:"Floor")
+    @pinAtChestId = Board.where(name:"Pin at the chest")
+    @pinAboveChestId = Board.where(name:"Pin 3 inches above the chest")
+    @squatId = Movement.find_by_name("Squat").id
+    @deadliftId = Movement.find_by_name("Deadlift").id
+    @benchId = Movement.find_by_name("Bench press").id
+
+    if $equipment == "Commercial"
+      @maxLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @maxEffortId, @squatId, @regularBarId)
+      @maxLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @maxEffortId, @deadliftId, @regularBarId)
+      @maxUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @maxEffortId, @benchId, @regularBarId)
+    elsif $equipment == "Powerlifting"
+      @maxLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @squatId).paginate(page: params[:page],:per_page => 25)
+      @maxLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @deadliftId).paginate(page: params[:page],:per_page => 25)
+      @maxUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @benchId).paginate(page: params[:page],:per_page => 25)
     end
   end
 
   def automaxeffort
-    @maxLowerExercises = Array.new
-    @maxUpperExercises = Array.new
-    @regularBarId = Variation.where(name: "Regular bar")
-    @noBoardId = Variation.where(name: "")
+    @maxEffortId = Exercisemethod.find_by_name("Max effort").id
+    @regularBarId = Bar.find_by_name("Regular bar").id
+    @noBoardId = Board.find_by_name("").id
+    @floorId = Board.find_by_name("Floor").id
+    @pinAtChestId = Board.find_by_name("Pin at the chest").id
+    @pinAboveChestId = Board.find_by_name("Pin 3 inches above the chest").id
+    @squatId = Movement.find_by_name("Squat").id
+    @deadliftId = Movement.find_by_name("Deadlift").id
+    @benchId = Movement.find_by_name("Bench press").id
+    @boardVariations = [@noBoardId, @floorId, @pinAtChestId, @pinAboveChestId]
 
-    if $equipment == 'Commercial'
-      Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @regularBarId).any?)
-          @maxLowerExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(id: @regularBarId).any? && (exercise.variations.where(id: @noBoardId).any? || exercise.variations.where(id: @floorId).any? || exercise.variations.where(id: @pinAtChestId).any? || exercise.variations.where(id: @pinAboveChestId).any?))
-          @maxUpperExercises.push(exercise)
-        end
-      end
-    elsif $equipment == 'Powerlifting'
-        Variation.where(name: "Max effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-          @maxLowerExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-          @maxUpperExercises.push(exercise)
-        end
-      end
+    if $equipment == "Commercial"
+      @maxLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @maxEffortId, @squatId, @regularBarId).order("RANDOM()").limit($macrocycleLength / 2).to_a
+      @maxLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @maxEffortId, @deadliftId, @regularBarId).order("RANDOM()").limit($macrocycleLength / 2).to_a
+      @maxUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ? AND board_id IN (?)", @maxEffortId, @benchId, @regularBarId, @boardVariations).order("RANDOM()").limit($macrocycleLength).to_a
+    elsif $equipment == "Powerlifting"
+      @maxLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @squatId).order("RANDOM()").limit($macrocycleLength / 2).to_a
+      @maxLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @deadliftId).order("RANDOM()").limit($macrocycleLength / 2).to_a
+      @maxUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @benchId).order("RANDOM()").limit($macrocycleLength / 2).to_a
     end
 
-    @maxLowerExercises = @maxLowerExercises.sample($macrocycleLength)
-    @maxUpperExercises = @maxUpperExercises.sample($macrocycleLength)
+    @maxLowerExercises = @maxLowerSquatExercises + @maxLowerDeadliftExercises
 
     $lucyMacrocycle.mesocycles.each do |mesocycle|
       mesocycle.microcycles.each do |microcycle|
@@ -173,79 +159,47 @@ class LucyController < ApplicationController
   end
 
   def dynamiceffort
-    @dynamicLowerSquatExercises = Array.new
-    @dynamicLowerDeadliftExercises = Array.new
-    @dynamicUpperExercises = Array.new
-    @regularBarId = Variation.where(name: "Regular bar")
-    @squatId = Variation.where(name: "Squat")
-    @deadliftId = Variation.where(name: "Deadlift")
+    @dynamicEffortId = Exercisemethod.find_by_name("Dynamic effort").id
+    @regularBarId = Bar.find_by_name("Regular bar").id
+    @noBoardId = Board.where(name: "")
+    @floorId = Board.where(name:"Floor")
+    @pinAtChestId = Board.where(name:"Pin at the chest")
+    @pinAboveChestId = Board.where(name:"Pin 3 inches above the chest")
+    @squatId = Movement.find_by_name("Squat").id
+    @deadliftId = Movement.find_by_name("Deadlift").id
+    @benchId = Movement.find_by_name("Bench press").id
 
-    @noBoardId = Variation.where(name: "")
-    @floorId = Variation.where(name:"Floor")
-    @pinAtChestId = Variation.where(name:"Pin at the chest")
-    @pinAboveChestId = Variation.where(name:"Pin 3 inches above the chest")
-
-    if $equipment == 'Commercial'
-      Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @squatId).any? && exercise.variations.where(id: @regularBarId).any?)
-          @dynamicLowerSquatExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @deadliftId).any? && exercise.variations.where(id: @regularBarId).any?)
-          @dynamicLowerDeadliftExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(id: @regularBarId).any? && (exercise.variations.where(id: @noBoardId).any? || exercise.variations.where(id: @floorId).any? || exercise.variations.where(id: @pinAtChestId).any? || exercise.variations.where(id: @pinAboveChestId).any?))
-          @dynamicUpperExercises.push(exercise)
-        end
-      end
-    elsif $equipment == 'Powerlifting'
-      Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @squatId).any?)
-          @dynamicLowerSquatExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @deadliftId).any?)
-          @dynamicLowerDeadliftExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-          @dynamicUpperExercises.push(exercise)
-        end
-      end
+    if $equipment == "Commercial"
+      @dynamicLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @dynamicEffortId, @squatId, @regularBarId).paginate(page: params[:page],:per_page => 25)
+      @dynamicLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @dynamicEffortId, @deadliftId, @regularBarId).paginate(page: params[:page],:per_page => 25)
+      @dynamicUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @dynamicEffortId, @benchId, @regularBarId).paginate(page: params[:page],:per_page => 25)
+    elsif $equipment == "Powerlifting"
+      @dynamicLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @dynamicEffortId, @squatId).paginate(page: params[:page],:per_page => 25)
+      @dynamicLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @dynamicEffortId, @deadliftId).paginate(page: params[:page],:per_page => 25)
+      @dynamicUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @dynamicEffortId, @benchId).paginate(page: params[:page],:per_page => 25)
     end
   end
 
   def autodynamiceffort
-    @dynamicLowerSquatExercises = Array.new
-    @dynamicLowerDeadliftExercises = Array.new
-    @dynamicUpperExercises = Array.new
-    @regularBarId = Variation.where(name: "Regular bar")
-    @squatId = Variation.where(name: "Squat")
-    @deadliftId = Variation.where(name: "Deadlift")
+    @dynamicEffortId = Exercisemethod.find_by_name("Dynamic effort").id
+    @regularBarId = Bar.find_by_name("Regular bar").id
+    @noBoardId = Board.where(name: "")
+    @floorId = Board.where(name:"Floor")
+    @pinAtChestId = Board.where(name:"Pin at the chest")
+    @pinAboveChestId = Board.where(name:"Pin 3 inches above the chest")
+    @squatId = Movement.find_by_name("Squat").id
+    @deadliftId = Movement.find_by_name("Deadlift").id
+    @benchId = Movement.find_by_name("Bench press").id
 
-    @noBoardId = Variation.where(name: "")
-    @floorId = Variation.where(name:"Floor")
-    @pinAtChestId = Variation.where(name:"Pin at the chest")
-    @pinAboveChestId = Variation.where(name:"Pin 3 inches above the chest")
-
-    if $equipment == 'Commercial'
-      Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @squatId).any? && exercise.variations.where(id: @regularBarId).any?)
-          @dynamicLowerSquatExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @deadliftId).any? && exercise.variations.where(id: @regularBarId).any?)
-          @dynamicLowerDeadliftExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any? && exercise.variations.where(id: @regularBarId).any? && (exercise.variations.where(id: @noBoardId).any? || exercise.variations.where(id: @floorId).any? || exercise.variations.where(id: @pinAtChestId).any? || exercise.variations.where(id: @pinAboveChestId).any?))
-          @dynamicUpperExercises.push(exercise)
-        end
-      end
-    elsif $equipment == 'Powerlifting'
-      Variation.where(name: "Dynamic effort").first.exercises.find_each do |exercise|
-        if(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @squatId).any?)
-          @dynamicLowerSquatExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Lower body").any? && exercise.variations.where(id: @deadliftId).any?)
-          @dynamicLowerDeadliftExercises.push(exercise)
-        elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-          @dynamicUpperExercises.push(exercise)
-        end
-      end
+    if $equipment == "Commercial"
+      @dynamicLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @dynamicEffortId, @squatId, @regularBarId).order("RANDOM()").limit($macrocycleLength / 4).to_a
+      @dynamicLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @dynamicEffortId, @deadliftId, @regularBarId).order("RANDOM()").limit($macrocycleLength / 4).to_a
+      @dynamicUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ? AND bar_id = ?", @dynamicEffortId, @benchId, @regularBarId).order("RANDOM()").limit($macrocycleLength / 4).to_a
+    elsif $equipment == "Powerlifting"
+      @dynamicLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @dynamicEffortId, @squatId).order("RANDOM()").limit($macrocycleLength / 4).to_a
+      @dynamicLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @dynamicEffortId, @deadliftId).order("RANDOM()").limit($macrocycleLength / 4).to_a
+      @dynamicUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @dynamicEffortId, @benchId).order("RANDOM()").limit($macrocycleLength / 4).to_a
     end
-
-    @dynamicLowerSquatExercises = @dynamicLowerSquatExercises.sample($macrocycleLength / 4)
-    @dynamicLowerDeadliftExercises = @dynamicLowerDeadliftExercises.sample($macrocycleLength / 4)
-    @dynamicUpperExercises = @dynamicUpperExercises.sample($macrocycleLength / 4)
 
     $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
       mesocycle.microcycles.each do |microcycle|
@@ -283,70 +237,51 @@ class LucyController < ApplicationController
   end
 
   def repetitioneffort
-    @lowerSupplementalExercises = Array.new
-    @lowerAccessoryExercises = Array.new
-    @lowerPrehabExercises = Array.new
-    @upperSupplementalExercises = Array.new
-    @upperAccessoryExercises = Array.new
-    @upperPrehabExercises = Array.new
-    Variation.where(name: "Repetition effort - supplemental").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerSupplementalExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperSupplementalExercises.push(exercise)
+    @supplementalId = Exercisemethod.find_by_name("Repetition effort - supplemental").id
+    @accessoryId = Exercisemethod.find_by_name("Repetition effort - accessory").id
+    @prehabId = Exercisemethod.find_by_name("Repetition effort - prehab").id
+
+    @lowerBodyWeaknesses = Array.new
+    @upperBodyWeaknesses = Array.new
+    current_user.weaknesses.each do |weakness|
+      if weakness.bodypart == "Lower body"
+        @lowerBodyWeaknesses.push(weakness.id)
+      elsif weakness.bodypart == "Upper body"
+        @upperBodyWeaknesses.push(weakness.id)
       end
     end
-    Variation.where(name: "Repetition effort - accessory").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerAccessoryExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperAccessoryExercises.push(exercise)
-      end
-    end
-    Variation.where(name: "Repetition effort - prehab").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerPrehabExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperPrehabExercises.push(exercise)
-      end
-    end
+
+    @lowerSupplementalExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @supplementalId, @lowerBodyWeaknesses).references(:exercises_weaknesses)
+    @lowerAccessoryExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @accessoryId, @lowerBodyWeaknesses).references(:exercises_weaknesses)
+    @lowerPrehabExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @prehabId, @lowerBodyWeaknesses).references(:exercises_weaknesses)
+
+    @upperSupplementalExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @supplementalId, @upperBodyWeaknesses).references(:exercises_weaknesses)
+    @upperAccessoryExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @accessoryId, @upperBodyWeaknesses).references(:exercises_weaknesses)
+    @upperPrehabExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @prehabId, @upperBodyWeaknesses).references(:exercises_weaknesses)
   end
 
   def autorepetitioneffort
-    @lowerSupplementalExercises = Array.new
-    @lowerAccessoryExercises = Array.new
-    @lowerPrehabExercises = Array.new
-    @upperSupplementalExercises = Array.new
-    @upperAccessoryExercises = Array.new
-    @upperPrehabExercises = Array.new
-    Variation.where(name: "Repetition effort - supplemental").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerSupplementalExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperSupplementalExercises.push(exercise)
-      end
-    end
-    Variation.where(name: "Repetition effort - accessory").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerAccessoryExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperAccessoryExercises.push(exercise)
-      end
-    end
-    Variation.where(name: "Repetition effort - prehab").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerPrehabExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperPrehabExercises.push(exercise)
+    @supplementalId = Exercisemethod.find_by_name("Repetition effort - supplemental").id
+    @accessoryId = Exercisemethod.find_by_name("Repetition effort - accessory").id
+    @prehabId = Exercisemethod.find_by_name("Repetition effort - prehab").id
+
+    @lowerBodyWeaknesses = Array.new
+    @upperBodyWeaknesses = Array.new
+    current_user.weaknesses.each do |weakness|
+      if weakness.bodypart == "Lower body"
+        @lowerBodyWeaknesses.push(weakness.id)
+      elsif weakness.bodypart == "Upper body"
+        @upperBodyWeaknesses.push(weakness.id)
       end
     end
 
-    @lowerSupplementalExercises = @lowerSupplementalExercises.sample($macrocycleLength / 4)
-    @lowerAccessoryExercises = @lowerAccessoryExercises.sample($macrocycleLength / 2)
-    @lowerPrehabExercises = @lowerPrehabExercises.sample($macrocycleLength / 4)
-    @upperSupplementalExercises = @upperSupplementalExercises.sample($macrocycleLength / 4)
-    @upperAccessoryExercises = @upperAccessoryExercises.sample($macrocycleLength / 2)
-    @upperPrehabExercises = @upperPrehabExercises.sample($macrocycleLength / 4)
+    @lowerSupplementalExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @supplementalId, @lowerBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit($macrocycleLength / 4).to_a
+    @lowerAccessoryExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @accessoryId, @lowerBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit($macrocycleLength / 2).to_a
+    @lowerPrehabExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @prehabId, @lowerBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit($macrocycleLength / 4).to_a
+
+    @upperSupplementalExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @supplementalId, @upperBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit($macrocycleLength / 4).to_a
+    @upperAccessoryExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @accessoryId, @upperBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit($macrocycleLength / 2).to_a
+    @upperPrehabExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @prehabId, @upperBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit($macrocycleLength / 4).to_a
 
     $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
       mesocycle.microcycles.each do |microcycle|
@@ -397,30 +332,39 @@ class LucyController < ApplicationController
   end
 
   def warmup
-    @lowerWarmupExercises = Array.new
-    @upperWarmupExercises = Array.new
-    Variation.where(name: "Repetition effort - prehab").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerWarmupExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperWarmupExercises.push(exercise)
-      end
-    end
-  end
-  
-  def autowarmup
-    @lowerWarmupExercises = Array.new
-    @upperWarmupExercises = Array.new
-    Variation.where(name: "Repetition effort - prehab").first.exercises.find_each do |exercise|
-      if(exercise.weaknesses.where(bodypart: "Lower body").any?)
-        @lowerWarmupExercises.push(exercise)
-      elsif(exercise.weaknesses.where(bodypart: "Upper body").any?)
-        @upperWarmupExercises.push(exercise)
+    @warmupId = Exercisemethod.find_by_name("Warmup").id
+
+    @lowerBodyWeaknesses = Array.new
+    @upperBodyWeaknesses = Array.new
+    current_user.weaknesses.each do |weakness|
+      if weakness.bodypart == "Lower body"
+        @lowerBodyWeaknesses.push(weakness.id)
+      elsif weakness.bodypart == "Upper body"
+        @upperBodyWeaknesses.push(weakness.id)
       end
     end
 
-    @lowerWarmupExercises = @lowerWarmupExercises.sample(($macrocycleLength / 4) * 3)
-    @upperWarmupExercises = @upperWarmupExercises.sample(($macrocycleLength / 4) * 3)
+    @lowerWarmupExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @warmupId, @lowerBodyWeaknesses).references(:exercises_weaknesses)
+
+    @upperWarmupExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @warmupId, @upperBodyWeaknesses).references(:exercises_weaknesses)
+  end
+  
+  def autowarmup
+    @warmupId = Exercisemethod.find_by_name("Warmup").id
+
+    @lowerBodyWeaknesses = Array.new
+    @upperBodyWeaknesses = Array.new
+    current_user.weaknesses.each do |weakness|
+      if weakness.bodypart == "Lower body"
+        @lowerBodyWeaknesses.push(weakness.id)
+      elsif weakness.bodypart == "Upper body"
+        @upperBodyWeaknesses.push(weakness.id)
+      end
+    end
+
+    @lowerWarmupExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @warmupId, @lowerBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit(($macrocycleLength / 4) * 3).to_a
+
+    @upperWarmupExercises = Exercise.includes(:exercises_weaknesses).where("exercisemethod_id = ? AND exercises_weaknesses.weakness_id IN (?)", @warmupId, @upperBodyWeaknesses).references(:exercises_weaknesses).order("RANDOM()").limit(($macrocycleLength / 4) * 3).to_a
 
     $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
       mesocycle.microcycles.each do |microcycle|
@@ -466,11 +410,28 @@ class LucyController < ApplicationController
   end
   
   def autodeload
-    $lucyMacrocycle.mesocycles.each do |mesocycle|
+    @maxEffortId = Exercisemethod.find_by_name("Max effort").id
+    @dynamicEffortId = Exercisemethod.find_by_name("Dynamic effort").id
+    @supplementalId = Exercisemethod.find_by_name("Repetition effort - supplemental").id
+    @accessoryId = Exercisemethod.find_by_name("Repetition effort - accessory").id
+    @prehabId = Exercisemethod.find_by_name("Repetition effort - prehab").id
+    @warmupId = Exercisemethod.find_by_name("Warmup").id
+
+    $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
       mesocycle.microcycles.last.workouts.each do |workout|
         workout.exercises.each do |exercise|
-          if(exercise.variations.where(name: "Max effort").any?)
-            workout.exercises.delete(Exercise.find(exercise))
+          if (i == 0)
+            if(exercise.exercisemethod_id == @maxEffortId)
+              workout.exercises.delete(Exercise.find(exercise))
+            end
+          elsif(i == 1)
+            if(exercise.exercisemethod_id == @dynamicEffortId)
+              workout.exercises.delete(Exercise.find(exercise))
+            end
+          elsif(i == 2)
+            if(exercise.exercisemethod_id == @supplementalId || exercise.exercisemethod_id == @accessoryId || exercise.exercisemethod_id == @prehabId)
+              workout.exercises.delete(Exercise.find(exercise))
+            end
           end
         end
       end
@@ -484,19 +445,26 @@ class LucyController < ApplicationController
       @deloadOptions.push(params["mesocycleDeloadOption#{i}"])
     end
 
+    @maxEffortId = Exercisemethod.find_by_name("Max effort").id
+    @dynamicEffortId = Exercisemethod.find_by_name("Dynamic effort").id
+    @supplementalId = Exercisemethod.find_by_name("Repetition effort - supplemental").id
+    @accessoryId = Exercisemethod.find_by_name("Repetition effort - accessory").id
+    @prehabId = Exercisemethod.find_by_name("Repetition effort - prehab").id
+    @warmupId = Exercisemethod.find_by_name("Warmup").id
+
     $lucyMacrocycle.mesocycles.each_with_index do |mesocycle, i|
       mesocycle.microcycles.last.workouts.each do |workout|
         workout.exercises.each do |exercise|
-          if (@deloadOptions[i] == "1")
-            if(exercise.variations.where(name: "Max effort").any?)
+          if (deloadOptions[i] == "1")
+            if(exercise.exercisemethod_id == @maxEffortId)
               workout.exercises.delete(Exercise.find(exercise))
             end
-          elsif(@deloadOptions[i] == "2")
-            if(exercise.variations.where(name: "Dynamic effort").any?)
+          elsif(deloadOptions[i] == "2")
+            if(exercise.exercisemethod_id == @dynamicEffortId)
               workout.exercises.delete(Exercise.find(exercise))
             end
-          elsif(@deloadOptions[i] == "3")
-            if(exercise.variations.where(name: "Repetition effort - supplemental").any? || exercise.variations.where(name: "Repetition effort - accessory").any? || exercise.variations.where(name: "Repetition effort - prehab").any?)
+          elsif(deloadOptions[i] == "3")
+            if(exercise.exercisemethod_id == @supplementalId || exercise.exercisemethod_id == @accessoryId || exercise.exercisemethod_id == @prehabId)
               workout.exercises.delete(Exercise.find(exercise))
             end
           end

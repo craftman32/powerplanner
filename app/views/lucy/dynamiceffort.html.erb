@@ -25,7 +25,7 @@
 	</div>
 </div>
 <%= form_tag("/lucy/dynamiceffort_post", method: "post") do %>
-	<div  id="exerciseArea" style="display:none">
+	<div  id="exerciseArea" style="<% if ! params[:page].present? %>display:none<% end %>">
 		<div class="row text-center">
 			<div class="col-md-12">
 				<h3>
@@ -69,6 +69,7 @@
 			</div> 
 		</div>
 		<div class="row  text-center">
+			<%= will_paginate @dynamicLowerDeadliftExercises %>
 			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
 		</div>
 	</div>

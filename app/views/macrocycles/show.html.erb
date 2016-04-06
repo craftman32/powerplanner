@@ -33,9 +33,9 @@
 <p>
   <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
     <h3>Mesocycle <%= index + 1%></h3>
-        <% mesocycle.microcycles.each_with_index do |microcycle, index| %>
+        <% mesocycle.microcycles.each do |microcycle| %>
           <div class="panel panel-default">
-            <div class="panel-heading"><strong>Week <%= index + 1 %></strong></div>
+            <div class="panel-heading"><strong>Week <%= @cycleWeek %></strong></div>
             <div class="panel-body">
               <div class="row">
                 <% microcycle.workouts.each_with_index do |workout, index| %>
@@ -45,50 +45,61 @@
                     <%= workout.workout_start_date.strftime("%B %d, %Y") %>
                     <br />
                     <p>
-                    	<strong>Main Movement</strong>
-                    	<br />
-                    	<% workout.exercises.each do |exercise| %>
-                    		<% if exercise.variations.where(name: "Max effort").any? || exercise.variations.where(name: "Dynamic effort").any? %>
-                    			<%= exercise.name %>
-                    			<br />
-                    		<% end %>
-                    	<% end %>
-                    </o>
+                        <strong>Warmup Movements</strong>
+                        <br />
+                        <% workout.exercises.each do |exercise| %>
+                            <% if exercise.exercisemethod_id == @warmupId %>
+                                <%= exercise.name %>
+                                <br />
+                            <% end %>
+                        <% end %>
+                    </p>
                     <p>
-                    	<strong>Supplemental Movement</strong>
-                    	<br />
-                    	<% workout.exercises.each do |exercise| %>
-                    		<% if exercise.variations.where(name: "Repetition effort - supplemental").any? %>
-                    			<%= exercise.name %>
-                    			<br />
-                    		<% end %>
-                    	<% end %>
-                    </o>
+                      <strong>Main Movement</strong>
+                      <br />
+                      <% workout.exercises.each do |exercise| %>
+                        <% if exercise.exercisemethod_id == @maxEffortId || exercise.exercisemethod_id == @dynamicEffortId %>
+                          <%= exercise.name %>
+                          <br />
+                        <% end %>
+                      <% end %>
+                    </p>
                     <p>
-                    	<strong>Accessory Movements</strong>
-                    	<br />
-                    	<% workout.exercises.each do |exercise| %>
-                    		<% if exercise.variations.where(name: "Repetition effort - accessory").any? %>
-                    			<%= exercise.name %>
-                    			<br />
-                    		<% end %>
-                    	<% end %>
-                    </o>
+                      <strong>Supplemental Movement</strong>
+                      <br />
+                      <% workout.exercises.each do |exercise| %>
+                        <% if exercise.exercisemethod_id == @supplementalId %>
+                          <%= exercise.name %>
+                          <br />
+                        <% end %>
+                      <% end %>
+                    </p>
                     <p>
-                    	<strong>Prehab Movements</strong>
-                    	<br />
-                    	<% workout.exercises.each do |exercise| %>
-                    		<% if exercise.variations.where(name: "Repetition effort - prehab").any? %>
-                    			<%= exercise.name %>
-                    			<br />
-                    		<% end %>
-                    	<% end %>
-                    </o>
+                      <strong>Accessory Movements</strong>
+                      <br />
+                      <% workout.exercises.each do |exercise| %>
+                        <% if exercise.exercisemethod_id == @accessoryId %>
+                          <%= exercise.name %>
+                          <br />
+                        <% end %>
+                      <% end %>
+                    </p>
+                    <p>
+                      <strong>Prehab Movements</strong>
+                      <br />
+                      <% workout.exercises.each do |exercise| %>
+                        <% if exercise.exercisemethod_id == @prehabId %>
+                          <%= exercise.name %>
+                          <br />
+                        <% end %>
+                      <% end %>
+                    </p>
                   </div>
                 <% end %>
               </div>
             </div>
           </div>
+          <% @cycleWeek = @cycleWeek + 1 %>
         <% end %>
     <% end %>
 </p>
