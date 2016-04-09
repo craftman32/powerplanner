@@ -36,24 +36,28 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h2>Lower Body Warmup Exercises</h2>
-				<% @lowerWarmupExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "lowerWarmupExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..(($macrocycleLength / 4) * 3) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("lowerWarmupTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("lowerWarmupMovement", i, @lowerWarmupMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-6">
 				<h2>Upper Body Warmup Exercises</h2>
-				<% @upperWarmupExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "upperWarmupExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..(($macrocycleLength / 4) * 3) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("upperWarmupTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("upperWarmupMovement", i, @upperWarmupMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+						<br />
+						<%= collection_select("upperWarmupBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					</p>
 				<% end %>
 			</div> 
 		</div>

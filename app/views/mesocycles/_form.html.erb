@@ -1,4 +1,4 @@
-<%= form_for @mesocycle do |f| %>
+<%= form_for [$macrocycle, @mesocycle] do |f| %>
  
   <% if @mesocycle.errors.any? %>
     <div id="error_explanation">
@@ -13,21 +13,6 @@
       </ul>
     </div>
   <% end %>
- <fieldset>
-  <legend>Variations</legend>
 
-  <h3>Max Effort Squat Exercises</h3>
-  <p>
-      <%= f.collection_check_boxes :exercise_ids, @maxLowerSquatExercises, :id, :name do |b| %>
-        <div class="collection-check-box">
-          <%= b.check_box %>
-          <%= b.label %>
-        </div>
-      <% end %>
-  </p>
- </fieldset>
-  <p>
-    <%= f.submit %>
-  </p>
  
 <% end %>

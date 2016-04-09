@@ -36,40 +36,60 @@
 		<div class="row">
 			<div class="col-md-4">
 				<h2>Dynamic Lower Body Squat Exercises</h2>
-				<% @dynamicLowerSquatExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "dynamicLowerSquatExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						Dynamic Effort 2 Rep Squat
+						<br />
+						With
+						<br />
+						<%= collection_select("squatPosition", i, @positions, :id, :name, {:include_blank => '- Select a Stance -'}) %>
+						<br />
+						<%= collection_select("squatBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+						<br />
+						<%= collection_select("squatBox", i, @boxes, :id, :name, {:include_blank => '- Select a Box -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-4">
 				<h2>Dynamic Lower Body Deadlift Exercises</h2>
-				<% @dynamicLowerDeadliftExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "dynamicLowerDeadliftExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						Dynamic Effort 2 Rep Deadlift
+						<br />
+						With
+						<br />
+						<%= collection_select("deadliftPosition", i, @positions, :id, :name, {:include_blank => '- Select a Stance -'}) %>
+						<br />
+						<%= collection_select("deadliftBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+						<br />
+						<%= collection_select("deadliftElevation", i, @elevations, :id, :name, {:include_blank => '- Select an Elevation -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-4">
 				<h2>Dynamic Upper Body Bench Press Exercises</h2>
-				<% @dynamicUpperExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "dynamicUpperExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						Dynamic Effort 3 Rep Bench Press
+						<br />
+						With
+						<br />
+						<%= collection_select("benchPosition", i, @positions, :id, :name, {:include_blank => '- Select a Grip -'}) %>
+						<br />
+						<%= collection_select("benchBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+						<br />
+
+					</p>
 				<% end %>
 			</div> 
 		</div>
 		<div class="row  text-center">
-			<%= will_paginate @dynamicLowerDeadliftExercises %>
 			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
 		</div>
 	</div>

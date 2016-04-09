@@ -1,0 +1,245 @@
+<h1>Edit Macrocycle Exercises</h1>
+
+<%= form_tag("/macrocycles/editexercises_post", method: "post") do %>
+	<div class="row text-center">
+		<div class="col-md-12">
+			<h3>
+				Please Enter <%= $lucyMacrocycle.mesocycles.count * 4 %> Max Lower Body Exercises and <%= $lucyMacrocycle.mesocycles.count * 4 %> Max Upper Body Exercises
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<h2>Max Lower Body Exercises</h2>
+			<% for i in 1..$macrocycleLength %>
+				<p class="well">
+					<strong>Max Lower Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("lowerReprange", i, @repRanges, :id, :name, {:include_blank => '- Select a Rep Range -'}) %>
+					<%= collection_select("lowerPosition", i, @positions, :id, :name, {:include_blank => '- Select a Stance -'}) %>
+					<%= collection_select("lowerMovement", i, @lowerMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					<br />
+					With
+					<br />
+					<%= collection_select("lowerBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					<br />
+					<%= collection_select("lowerBox", i, @boxes, :id, :name, {:include_blank => '- Select a Box -'}) %>
+					<br />
+					<%= collection_select("lowerElevation", i, @elevations, :id, :name, {:include_blank => '- Select an Elevation -'}) %>
+					<br />
+					<%= collection_select("lowerTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Pause Count -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-6">
+			<h2>Max Upper Body Exercises</h2>
+			<% for i in 1..$macrocycleLength %>
+				<p class="well">
+					<strong>Max Upper Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("upperReprange", i, @repRanges, :id, :name, {:include_blank => '- Select a Rep Range -'}) %>
+					<%= collection_select("upperPosition", i, @positions, :id, :name, {:include_blank => '- Select a Grip -'}) %>
+					Bench Press
+					<br />
+					With
+					<br />
+					<%= collection_select("upperBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					<br />
+					<%= collection_select("upperBoard", i, @boards, :id, :name, {:include_blank => '- Select a Board -'}) %>
+					<br />
+					<%= collection_select("upperTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Pause Count -'}) %>
+				</p>
+			<% end %>
+		</div>
+	</div>
+	<div class="row text-center">
+		<div class="col-md-12">
+			<h3>
+				Please select <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Lower Body Squat Exercises, <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Lower Body Deadlift Exercises, and <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Upper Body Bench Press Exercises
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Dynamic Lower Body Squat Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					Dynamic Effort 2 Rep Squat
+					<br />
+					With
+					<br />
+					<%= collection_select("squatPosition", i, @positions, :id, :name, {:include_blank => '- Select a Stance -'}) %>
+					<br />
+					<%= collection_select("squatBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					<br />
+					<%= collection_select("squatBox", i, @boxes, :id, :name, {:include_blank => '- Select a Box -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-4">
+			<h2>Dynamic Lower Body Deadlift Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					Dynamic Effort 2 Rep Deadlift
+					<br />
+					With
+					<br />
+					<%= collection_select("deadliftPosition", i, @positions, :id, :name, {:include_blank => '- Select a Stance -'}) %>
+					<br />
+					<%= collection_select("deadliftBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					<br />
+					<%= collection_select("deadliftElevation", i, @elevations, :id, :name, {:include_blank => '- Select an Elevation -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-4">
+			<h2>Dynamic Upper Body Bench Press Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					Dynamic Effort 3 Rep Bench Press
+					<br />
+					With
+					<br />
+					<%= collection_select("benchPosition", i, @positions, :id, :name, {:include_blank => '- Select a Grip -'}) %>
+					<br />
+					<%= collection_select("benchBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					<br />
+
+				</p>
+			<% end %>
+		</div> 
+	</div>
+	<div class="row text-center">
+		<div class="col-md-12">
+			<h3>
+				Please select <%= $lucyMacrocycle.mesocycles.count %> supplemental exercises for each body part, <%= $lucyMacrocycle.mesocycles.count * 2 %> accessory exercises for each body part, and <%= $lucyMacrocycle.mesocycles.count %> prehab exercises for each body part.
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Repetition Lower Body Supplemental Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("lowerSupplementalTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("lowerSupplementalMovement", i, @lowerSupplementalMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-4">
+			<h2>Repetition Lower Body Accessory Exercises</h2>
+			<% for i in 1..($macrocycleLength / 2) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("lowerAccessoryTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("lowerAccessoryMovement", i, @lowerAccessoryMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-4">
+			<h2>Repetition Lower Body Prehab Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("lowerPrehabTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("lowerPrehabMovement", i, @lowerPrehabMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+				</p>
+			<% end %>
+		</div> 
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Repetition Upper Body Supplemental Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("upperSupplementalTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("upperSupplementalMovement", i, @upperSupplementalMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					<br />
+					<%= collection_select("upperSupplementalBar", i, @repBars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-4">
+			<h2>Repetition Upper Body Accessory Exercises</h2>
+			<% for i in 1..($macrocycleLength / 2) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("upperAccessoryTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("upperAccessoryMovement", i, @upperAccessoryMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					<br />
+					<%= collection_select("upperAccessoryBar", i, @repBars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-4">
+			<h2>Repetition Upper Body Prehab Exercises</h2>
+			<% for i in 1..($macrocycleLength / 4) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("upperPrehabTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("upperPrehabMovement", i, @upperPrehabMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					<br />
+					<%= collection_select("upperPrehabBar", i, @repBars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+				</p>
+			<% end %>
+		</div>  
+	</div>
+	<div class="row text-center">
+		<div class="col-md-12">
+			<h3>
+				Please select <%= $lucyMacrocycle.mesocycles.count * 3 %> warmup exercises for each body part.
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<h2>Lower Body Warmup Exercises</h2>
+			<% for i in 1..(($macrocycleLength / 4) * 3) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("lowerWarmupTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("lowerWarmupMovement", i, @lowerWarmupMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+				</p>
+			<% end %>
+		</div> 
+		<div class="col-md-6">
+			<h2>Upper Body Warmup Exercises</h2>
+			<% for i in 1..(($macrocycleLength / 4) * 3) %>
+				<p class="well">
+					<strong>Exercise <%= i %>:</strong>
+					<br />
+					<%= collection_select("upperWarmupTempo", i, @repTempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+					<br />
+					<%= collection_select("upperWarmupMovement", i, @upperWarmupMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					<br />
+					<%= collection_select("upperWarmupBar", i, @repBars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+				</p>
+			<% end %>
+		</div> 
+	</div>
+	<div class="row  text-center">
+		<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
+	</div>
+<% end %>

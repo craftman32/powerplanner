@@ -36,72 +36,84 @@
 		<div class="row">
 			<div class="col-md-4">
 				<h2>Repetition Lower Body Supplemental Exercises</h2>
-				<% @lowerSupplementalExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "lowerSupplementalExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("lowerSupplementalTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("lowerSupplementalMovement", i, @lowerSupplementalMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-4">
 				<h2>Repetition Lower Body Accessory Exercises</h2>
-				<% @lowerAccessoryExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "lowerAccessoryExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 2) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("lowerAccessoryTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("lowerAccessoryMovement", i, @lowerAccessoryMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-4">
 				<h2>Repetition Lower Body Prehab Exercises</h2>
-				<% @lowerPrehabExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "lowerPrehabExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("lowerPrehabTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("lowerPrehabMovement", i, @lowerPrehabMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+					</p>
 				<% end %>
 			</div> 
 		</div>
 		<div class="row">
 			<div class="col-md-4">
 				<h2>Repetition Upper Body Supplemental Exercises</h2>
-				<% @upperSupplementalExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "upperSupplementalExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("upperSupplementalTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("upperSupplementalMovement", i, @upperSupplementalMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+						<br />
+						<%= collection_select("upperSupplementalBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-4">
 				<h2>Repetition Upper Body Accessory Exercises</h2>
-				<% @upperAccessoryExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "upperAccessoryExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 2) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("upperAccessoryTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("upperAccessoryMovement", i, @upperAccessoryMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+						<br />
+						<%= collection_select("upperAccessoryBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					</p>
 				<% end %>
 			</div> 
 			<div class="col-md-4">
 				<h2>Repetition Upper Body Prehab Exercises</h2>
-				<% @upperPrehabExercises.each do |exercise| %>
-					<div class="checkbox">
-						<label>
-						    <%= check_box_tag "upperPrehabExercises[]", exercise.id %>
-						    <%= exercise.name %>
-						</label>
-				    </div>
+				<% for i in 1..($macrocycleLength / 4) %>
+					<p class="well">
+						<strong>Exercise <%= i %>:</strong>
+						<br />
+						<%= collection_select("upperPrehabTempo", i, @tempos, :id, :name, {:include_blank => '- Select a Tempo -'}) %>
+						<br />
+						<%= collection_select("upperPrehabMovement", i, @upperPrehabMovements, :id, :name, {:include_blank => '- Select a Movement -'}) %>
+						<br />
+						<%= collection_select("upperPrehabBar", i, @bars, :id, :name, {:include_blank => '- Select a Bar -'}) %>
+					</p>
 				<% end %>
-			</div> 
+			</div>  
 		</div>
 		<div class="row  text-center">
 			<%= button_tag "Save Exercise Options", class: "btn btn-primary", data: {disable_with: "Saving options please wait..."} %>
