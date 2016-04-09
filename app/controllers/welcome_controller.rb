@@ -1,5 +1,12 @@
 class WelcomeController < ApplicationController
   def index
+    @maxEffortId = Exercisemethod.find_by_name("Max effort").id
+    @dynamicEffortId = Exercisemethod.find_by_name("Dynamic effort").id
+    @supplementalId = Exercisemethod.find_by_name("Repetition effort - supplemental").id
+    @accessoryId = Exercisemethod.find_by_name("Repetition effort - accessory").id
+    @prehabId = Exercisemethod.find_by_name("Repetition effort - prehab").id
+    @warmupId = Exercisemethod.find_by_name("Warmup").id
+    
   	@d = Date.today
   	@beginDate = @d.at_beginning_of_week
   	@endDate = @d.at_beginning_of_week + 7

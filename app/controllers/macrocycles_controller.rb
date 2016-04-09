@@ -39,19 +39,19 @@ class MacrocyclesController < ApplicationController
     @lowerMovements = [Movement.find_by_name("Squat"), Movement.find_by_name("Deadlift")]
     @positions = Position.all 
     @repRanges = Reprange.all 
-    @tempos = [Tempo.find_by_name(""), Tempo.find_by_name("1 second pause"), Tempo.find_by_name("2 second pause"), Tempo.find_by_name("3 second pause")]
+    @tempos = [Tempo.find_by_name("No tempo"), Tempo.find_by_name("1 second pause"), Tempo.find_by_name("2 second pause"), Tempo.find_by_name("3 second pause")]
 
-    @repBars = [Bar.find_by_name("Regular bar"), Bar.find_by_name("Dumbbell"), Bar.find_by_name("Curl bar")]
+    @repBars = [Bar.find_by_name("Regular bar"), Bar.find_by_name("Dumbbell"), Bar.find_by_name("Curl bar"), Bar.find_by_name("Machine")]
     @lowerSupplementalMovements = [Movement.find_by_name("Reverse hyperextensions"), Movement.find_by_name("Glute ham raises"), Movement.find_by_name("Hamstring curls"), Movement.find_by_name("Ab crunches"), Movement.find_by_name("Pull throughs"), Movement.find_by_name("Good mornings"), Movement.find_by_name("Back extensions")]
     @lowerAccessoryMovements = @lowerSupplementalMovements
     @lowerPrehabMovements = @lowerSupplementalMovements
-    @upperSupplementalMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Dips"), Movement.find_by_name("Shoulder presses"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups")]
-    @upperAccessoryMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Dips"), Movement.find_by_name("Shoulder presses"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
-    @upperPrehabMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
-    @repTempos = [Tempo.find_by_name(""), Tempo.find_by_name("2-0-2-0"), Tempo.find_by_name("2-1-1-0"), Tempo.find_by_name("0-1-0-0")]
+    @upperSupplementalMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Shoulder presses")]
+    @upperAccessoryMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Shoulder presses"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
+    @upperPrehabMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
+    @repTempos = [Tempo.find_by_name("No tempo"), Tempo.find_by_name("2-0-2-0"), Tempo.find_by_name("2-1-1-0"), Tempo.find_by_name("0-1-0-0")]
 
     @lowerWarmupMovements = [Movement.find_by_name("Reverse hyperextensions"), Movement.find_by_name("Glute ham raises"), Movement.find_by_name("Hamstring curls"), Movement.find_by_name("Ab crunches"), Movement.find_by_name("Pull throughs"), Movement.find_by_name("Good mornings"), Movement.find_by_name("Back extensions")]
-    @upperWarmupMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
+    @upperWarmupMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
   end
  
   def create

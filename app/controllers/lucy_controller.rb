@@ -85,13 +85,13 @@ class LucyController < ApplicationController
     @lowerMovements = [Movement.find_by_name("Squat"), Movement.find_by_name("Deadlift")]
     @positions = Position.all 
     @repRanges = Reprange.all 
-    @tempos = [Tempo.find_by_name(""), Tempo.find_by_name("1 second pause"), Tempo.find_by_name("2 second pause"), Tempo.find_by_name("3 second pause")]
+    @tempos = [Tempo.find_by_name("No tempo"), Tempo.find_by_name("1 second pause"), Tempo.find_by_name("2 second pause"), Tempo.find_by_name("3 second pause")]
   end
 
   def automaxeffort
     @maxEffortId = Exercisemethod.find_by_name("Max effort").id
     @regularBarId = Bar.find_by_name("Regular bar").id
-    @noBoardId = Board.find_by_name("").id
+    @noBoardId = Board.find_by_name("No board").id
     @floorId = Board.find_by_name("Floor").id
     @pinAtChestId = Board.find_by_name("Pin at the chest").id
     @pinAboveChestId = Board.find_by_name("Pin 3 inches above the chest").id
@@ -107,11 +107,11 @@ class LucyController < ApplicationController
     elsif $equipment == "Powerlifting"
       @maxLowerSquatExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @squatId).order("RANDOM()").limit($macrocycleLength / 2).to_a
       @maxLowerDeadliftExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @deadliftId).order("RANDOM()").limit($macrocycleLength / 2).to_a
-      @maxUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @benchId).order("RANDOM()").limit($macrocycleLength / 2).to_a
+      @maxUpperExercises = Exercise.where("exercisemethod_id = ? AND movement_id = ?", @maxEffortId, @benchId).order("RANDOM()").limit($macrocycleLength).to_a
     end
 
     @maxLowerExercises = @maxLowerSquatExercises + @maxLowerDeadliftExercises
-    @maxLowerExercises.shuffle
+    @maxLowerExercises = @maxLowerExercises.shuffle
 
     $lucyMacrocycle.mesocycles.each do |mesocycle|
       mesocycle.microcycles.each do |microcycle|
@@ -243,14 +243,14 @@ class LucyController < ApplicationController
   end
 
   def repetitioneffort
-    @bars = [Bar.find_by_name("Regular bar"), Bar.find_by_name("Dumbbell"), Bar.find_by_name("Curl bar")]
+    @bars = [Bar.find_by_name("Regular bar"), Bar.find_by_name("Dumbbell"), Bar.find_by_name("Curl bar"), Bar.find_by_name("Machine")]
     @lowerSupplementalMovements = [Movement.find_by_name("Reverse hyperextensions"), Movement.find_by_name("Glute ham raises"), Movement.find_by_name("Hamstring curls"), Movement.find_by_name("Ab crunches"), Movement.find_by_name("Pull throughs"), Movement.find_by_name("Good mornings"), Movement.find_by_name("Back extensions")]
     @lowerAccessoryMovements = @lowerSupplementalMovements
     @lowerPrehabMovements = @lowerSupplementalMovements
-    @upperSupplementalMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Dips"), Movement.find_by_name("Shoulder presses"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups")]
-    @upperAccessoryMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Dips"), Movement.find_by_name("Shoulder presses"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
-    @upperPrehabMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
-    @tempos = [Tempo.find_by_name(""), Tempo.find_by_name("2-0-2-0"), Tempo.find_by_name("2-1-1-0"), Tempo.find_by_name("0-1-0-0")]
+    @upperSupplementalMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Shoulder presses")]
+    @upperAccessoryMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Shoulder presses"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
+    @upperPrehabMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
+    @tempos = [Tempo.find_by_name("No tempo"), Tempo.find_by_name("2-0-2-0"), Tempo.find_by_name("2-1-1-0"), Tempo.find_by_name("0-1-0-0")]
   end
 
   def autorepetitioneffort
@@ -326,7 +326,7 @@ class LucyController < ApplicationController
       @lowerAccessoryExercise = Exercise.where("movement_id = ? AND tempo_id = ? AND exercisemethod_id = ?", params[:lowerAccessoryMovement][i.to_s], params[:lowerAccessoryTempo][i.to_s], @accessoryId).first
       @lowerAccessoryExercises.push(@lowerAccessoryExercise)
 
-      @upperAccessoryExercise = Exercise.where("movement_id = ? AND tempo_id = ? AND bar_id = ? AND exercisemethod_id = ?", params[:upperAccessoryMovement][i.to_s], params[:upperAccessoryTempo][i.to_s], params[:upperAccessoryBar][i.to_s], @accessoryId).first
+      @upperAccessoryExercise = Exercise.where("movement_id = ? AND tempo_id = ? AND exercisemethod_id = ?", params[:upperAccessoryMovement][i.to_s], params[:upperAccessoryTempo][i.to_s], @accessoryId).first
       @upperAccessoryExercises.push(@upperAccessoryExercise)
     end
 
@@ -351,10 +351,10 @@ class LucyController < ApplicationController
   end
 
   def warmup
-    @bars = [Bar.find_by_name("Regular bar"), Bar.find_by_name("Dumbbell"), Bar.find_by_name("Curl bar")]
+    @bars = [Bar.find_by_name("Regular bar"), Bar.find_by_name("Dumbbell"), Bar.find_by_name("Curl bar"), Bar.find_by_name("Machine")]
     @lowerWarmupMovements = [Movement.find_by_name("Reverse hyperextensions"), Movement.find_by_name("Glute ham raises"), Movement.find_by_name("Hamstring curls"), Movement.find_by_name("Ab crunches"), Movement.find_by_name("Pull throughs"), Movement.find_by_name("Good mornings"), Movement.find_by_name("Back extensions")]
-    @upperWarmupMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Pushups"), Movement.find_by_name("Pushups"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
-    @tempos = [Tempo.find_by_name(""), Tempo.find_by_name("2-0-2-0"), Tempo.find_by_name("2-1-1-0"), Tempo.find_by_name("0-1-0-0")]
+    @upperWarmupMovements = [Movement.find_by_name("Tricep extensions"), Movement.find_by_name("Rows"), Movement.find_by_name("Pulldowns"), Movement.find_by_name("Curls"), Movement.find_by_name("Face pulls"), Movement.find_by_name("Rear delt flies")]
+    @tempos = [Tempo.find_by_name("No tempo"), Tempo.find_by_name("2-0-2-0"), Tempo.find_by_name("2-1-1-0"), Tempo.find_by_name("0-1-0-0")]
   end
   
   def autowarmup

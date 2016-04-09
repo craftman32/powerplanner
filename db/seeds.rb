@@ -8,19 +8,27 @@
 # Making all the variations
 # Making the bar variations
 accessoryBars = Array.new
+mainBars = Array.new
+Bar.create(name:"Machine")
+accessoryBars.push(Bar.last)
 Bar.create(name:"Regular bar")
 accessoryBars.push(Bar.last)
+mainBars.push(Bar.last)
 Bar.create(name:"Squat bar")
+mainBars.push(Bar.last)
 Bar.create(name:"Deadlift bar")
+mainBars.push(Bar.last)
 Bar.create(name:"Safety squat bar")
+mainBars.push(Bar.last)
 Bar.create(name:"Cambered bar")
+mainBars.push(Bar.last)
 Bar.create(name:"Dumbbell")
 accessoryBars.push(Bar.last)
 Bar.create(name:"Curl bar")
 accessoryBars.push(Bar.last)
 
 # Making the board variations
-Board.create(name:"")
+Board.create(name:"No board")
 Board.create(name:"1-board")
 Board.create(name:"2-board")
 Board.create(name:"3-board")
@@ -29,13 +37,13 @@ Board.create(name:"Pin at the chest")
 Board.create(name:"Pin 3 inches above the chest")
 
 # Making the box variations
-Box.create(name:"")
+Box.create(name:"No box")
 Box.create(name:"Low box")
 Box.create(name:"Parallel box")
 Box.create(name:"High box")
 
 # Making the elevation variations
-Elevation.create(name:"")
+Elevation.create(name:"No elevation")
 Elevation.create(name:"3-inch deficit")
 Elevation.create(name:"2-inch deficit")
 Elevation.create(name:"1-inch deficit")
@@ -62,8 +70,11 @@ Machine.create(name:"Glute ham raise")
 Machine.create(name:"Lat pulldown")
 
 # Making the method variations
+mainMethods = Array.new
 Exercisemethod.create(name:"Max effort")
+mainMethods.push(Exercisemethod.last)
 Exercisemethod.create(name:"Dynamic effort")
+mainMethods.push(Exercisemethod.last)
 repetitionEffortMethods = Array.new
 Exercisemethod.create(name:"Repetition effort - supplemental")
 repetitionEffortMethods.push(Exercisemethod.last)
@@ -130,8 +141,10 @@ Position.create(name:"Wide")
 
 # Making the tempos
 maxEffortTempos = Array.new
-Tempo.create(name:"")
+repetitionEffortTempos = Array.new
+Tempo.create(name:"No tempo")
 maxEffortTempos.push(Tempo.last)
+repetitionEffortTempos.push(Tempo.last)
 Tempo.create(name:"1 second pause")
 maxEffortTempos.push(Tempo.last)
 Tempo.create(name:"2 second pause")
@@ -139,7 +152,6 @@ maxEffortTempos.push(Tempo.last)
 Tempo.create(name:"3 second pause")
 maxEffortTempos.push(Tempo.last)
 
-repetitionEffortTempos = Array.new
 Tempo.create(name:"2-0-2-0")
 repetitionEffortTempos.push(Tempo.last)
 Tempo.create(name:"2-1-1-0")
@@ -184,13 +196,13 @@ Weakness.create(name: "Biceps", bodypart: "Upper body")
 # Making all the main exercises
 mainMovements.each do |movement|
 	Position.all.each do |position|
-		Bar.all.each do |bar|
-			Exercisemethod.all.each do |method|
+		mainBars.each do |bar|
+			mainMethods.each do |method|
 				Reprange.all.each do |maxEffortRepRange|
 					maxEffortTempos.each do |pauseCount|
 						# Making the max effort and dynamic effort main movements
 						# Making all the squat exercises
-						if(movement.name == "Squat" && bar.name != "Deadlift bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
+						if(movement.name == "Squat" && bar.name != "Deadlift bar")
 							Box.all.each do |box|
 								exercise = Exercise.new
 								exerciseName = ""
@@ -209,7 +221,7 @@ mainMovements.each do |movement|
 								exercise.name = exerciseName.capitalize
 								exercise.save
 							end
-						elsif(movement.name == "Bench press" && bar.name != "Deadlift bar" && bar.name != "Safety squat bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && bar.name != "Cambered bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
+						elsif(movement.name == "Bench press" && bar.name != "Deadlift bar" && bar.name != "Safety squat bar")
 							Board.all.each do |board|
 								exercise = Exercise.new
 								exerciseName = ""
@@ -228,7 +240,7 @@ mainMovements.each do |movement|
 								exercise.name = exerciseName.capitalize
 								exercise.save
 							end
-						elsif(movement.name == "Deadlift" && bar.name != "Safety squat bar" && bar.name != "Dumbbell" && bar.name != "Curl bar" && bar.name != "Cambered bar" && (method.name == "Max effort" || method.name == "Dynamic effort"))
+						elsif(movement.name == "Deadlift" && bar.name != "Safety squat bar" && bar.name != "Cambered bar")
 							Elevation.all.each do |elevation|
 								exercise = Exercise.new
 								exerciseName = ""
@@ -351,7 +363,7 @@ upperAccessoryMovements.each do |movement|
 					exerciseName = method.name + " " + tempo.name + " " + bar.name + " " + movement.name
 					exercise.name = exerciseName.capitalize
 					exercise.save
-				elsif(movement.name == "Rows" && bar.name != "Curl bar")
+				elsif(movement.name == "Rows")
 					exercise = Exercise.new
 					exercise.exercisemethod_id = method.id
 					exercise.bar_id = bar.id
@@ -362,14 +374,15 @@ upperAccessoryMovements.each do |movement|
 					exerciseName = method.name + " " + tempo.name + " " + bar.name + " " + movement.name
 					exercise.name = exerciseName.capitalize
 					exercise.save
-				elsif(movement.name == "Pulldowns")
+				elsif(movement.name == "Pulldowns" && bar.name == "Machine")
 					exercise = Exercise.new
 					exercise.exercisemethod_id = method.id
+					exercise.bar_id = bar.id
 					exercise.tempo_id = tempo.id
 					exercise.movement_id = movement.id
 					exercise.weaknesses << Weakness.where(name: "Upper back")
 					exercise.weaknesses << Weakness.where(name: "Lats")
-					exerciseName = method.name + " " + tempo.name + " " + movement.name
+					exerciseName = method.name + " " + tempo.name + " " + bar.name + " " + movement.name
 					exercise.name = exerciseName.capitalize
 					exercise.save
 				elsif(movement.name == "Curls")
@@ -382,17 +395,7 @@ upperAccessoryMovements.each do |movement|
 					exerciseName = method.name + " " + tempo.name + " " + bar.name + " " + movement.name
 					exercise.name = exerciseName.capitalize
 					exercise.save
-				elsif(movement.name == "Dips" && method.name != "Repetition effort - prehab" && method.name != "Warmup")
-					exercise = Exercise.new
-					exercise.exercisemethod_id = method.id
-					exercise.tempo_id = tempo.id
-					exercise.movement_id = movement.id
-					exercise.weaknesses << Weakness.where(name: "Triceps")
-					exercise.weaknesses << Weakness.where(name: "Shoulders")
-					exerciseName = method.name + " " + tempo.name + " " + movement.name
-					exercise.name = exerciseName.capitalize
-					exercise.save
-				elsif(movement.name == "Shoulder presses" && bar.name != "Curl bar" && method.name != "Repetition effort - prehab" && method.name != "Warmup")
+				elsif(movement.name == "Shoulder presses" && method.name != "Repetition effort - prehab" && method.name != "Warmup")
 					exercise = Exercise.new
 					exercise.exercisemethod_id = method.id
 					exercise.bar_id = bar.id
@@ -403,24 +406,14 @@ upperAccessoryMovements.each do |movement|
 					exerciseName = method.name + " " + tempo.name + " " + bar.name + " " + movement.name
 					exercise.name = exerciseName.capitalize
 					exercise.save
-				elsif(movement.name == "Pushups")
+				elsif((movement.name == "Face pulls" && bar.name == "Machine") || (movement.name == "Rear delt flies" && bar.name == "Dumbbell" && method.name != "Repetition effort - supplemental"))
 					exercise = Exercise.new
 					exercise.exercisemethod_id = method.id
-					exercise.tempo_id = tempo.id
-					exercise.movement_id = movement.id
-					exercise.weaknesses << Weakness.where(name: "Triceps")
-					exercise.weaknesses << Weakness.where(name: "Chest")
-					exercise.weaknesses << Weakness.where(name: "Shoulders")
-					exerciseName = method.name + " " + tempo.name + " " + movement.name
-					exercise.name = exerciseName.capitalize
-					exercise.save
-				elsif(movement.name == "Face pulls" || movement.name == "Rear delt flies" && method.name != "Repetition effort - supplemental")
-					exercise = Exercise.new
-					exercise.exercisemethod_id = method.id
+					exercise.bar_id = bar.id
 					exercise.tempo_id = tempo.id
 					exercise.movement_id = movement.id
 					exercise.weaknesses << Weakness.where(name: "Upper back")
-					exerciseName = method.name + " " + tempo.name + " " + movement.name
+					exerciseName = method.name + " " + tempo.name + " " + bar.name + " " + movement.name
 					exercise.name = exerciseName.capitalize
 					exercise.save
 				end
