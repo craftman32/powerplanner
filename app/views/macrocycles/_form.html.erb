@@ -26,7 +26,7 @@
   </p>
 
   <% if @macrocycle.mesocycles.any? %>
-    <%= link_to 'Edit Exercises', macrocycles_editexercises_path(id: @macrocycle.id), :class=>'btn btn-primary' %>
+    <%= link_to 'Change Exercises', macrocycles_editexercises_path(id: @macrocycle.id), :class=>'btn btn-primary' %>
     <% @macrocycle.mesocycles.each_with_index do |mesocycle, index| %>
       <h3>Mesocycle <%= index + 1%></h3>
       <br />

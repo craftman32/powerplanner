@@ -4,14 +4,14 @@
 	<div class="row text-center">
 		<div class="col-md-12">
 			<h3>
-				Please Enter <%= $lucyMacrocycle.mesocycles.count * 4 %> Max Lower Body Exercises and <%= $lucyMacrocycle.mesocycles.count * 4 %> Max Upper Body Exercises
+				Please enter <%= @macrocycle.mesocycles.count * 4 %> Max Lower Body Exercises and <%= @macrocycle.mesocycles.count * 4 %> Max Upper Body Exercises
 			</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-6">
 			<h2>Max Lower Body Exercises</h2>
-			<% for i in 1..$macrocycleLength %>
+			<% for i in 1..@macrocycleLength %>
 				<p class="well">
 					<strong>Max Lower Exercise <%= i %>:</strong>
 					<br />
@@ -33,7 +33,7 @@
 		</div> 
 		<div class="col-md-6">
 			<h2>Max Upper Body Exercises</h2>
-			<% for i in 1..$macrocycleLength %>
+			<% for i in 1..@macrocycleLength %>
 				<p class="well">
 					<strong>Max Upper Exercise <%= i %>:</strong>
 					<br />
@@ -55,14 +55,14 @@
 	<div class="row text-center">
 		<div class="col-md-12">
 			<h3>
-				Please select <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Lower Body Squat Exercises, <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Lower Body Deadlift Exercises, and <%= $lucyMacrocycle.mesocycles.count * 2 %> Dynamic Upper Body Bench Press Exercises
+				Please enter <%= @macrocycle.mesocycles.count * 2 %> Dynamic Lower Body Squat Exercises, <%= @macrocycle.mesocycles.count * 2 %> Dynamic Lower Body Deadlift Exercises, and <%= @macrocycle.mesocycles.count * 2 %> Dynamic Upper Body Bench Press Exercises
 			</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-4">
 			<h2>Dynamic Lower Body Squat Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -80,7 +80,7 @@
 		</div> 
 		<div class="col-md-4">
 			<h2>Dynamic Lower Body Deadlift Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -98,7 +98,7 @@
 		</div> 
 		<div class="col-md-4">
 			<h2>Dynamic Upper Body Bench Press Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -118,14 +118,14 @@
 	<div class="row text-center">
 		<div class="col-md-12">
 			<h3>
-				Please select <%= $lucyMacrocycle.mesocycles.count %> supplemental exercises for each body part, <%= $lucyMacrocycle.mesocycles.count * 2 %> accessory exercises for each body part, and <%= $lucyMacrocycle.mesocycles.count %> prehab exercises for each body part.
+				Please enter <%= @macrocycle.mesocycles.count %> supplemental exercises for each body part, <%= @macrocycle.mesocycles.count * 2 %> accessory exercises for each body part, and <%= @macrocycle.mesocycles.count %> prehab exercises for each body part.
 			</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-4">
 			<h2>Repetition Lower Body Supplemental Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -137,7 +137,7 @@
 		</div> 
 		<div class="col-md-4">
 			<h2>Repetition Lower Body Accessory Exercises</h2>
-			<% for i in 1..($macrocycleLength / 2) %>
+			<% for i in 1..(@macrocycleLength / 2) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -149,7 +149,7 @@
 		</div> 
 		<div class="col-md-4">
 			<h2>Repetition Lower Body Prehab Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -163,7 +163,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<h2>Repetition Upper Body Supplemental Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -177,7 +177,7 @@
 		</div> 
 		<div class="col-md-4">
 			<h2>Repetition Upper Body Accessory Exercises</h2>
-			<% for i in 1..($macrocycleLength / 2) %>
+			<% for i in 1..(@macrocycleLength / 2) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -191,7 +191,7 @@
 		</div> 
 		<div class="col-md-4">
 			<h2>Repetition Upper Body Prehab Exercises</h2>
-			<% for i in 1..($macrocycleLength / 4) %>
+			<% for i in 1..(@macrocycleLength / 4) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -207,14 +207,14 @@
 	<div class="row text-center">
 		<div class="col-md-12">
 			<h3>
-				Please select <%= $lucyMacrocycle.mesocycles.count * 3 %> warmup exercises for each body part.
+				Please enter <%= @macrocycle.mesocycles.count * 3 %> warmup exercises for each body part.
 			</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-6">
 			<h2>Lower Body Warmup Exercises</h2>
-			<% for i in 1..(($macrocycleLength / 4) * 3) %>
+			<% for i in 1..((@macrocycleLength / 4) * 3) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />
@@ -226,7 +226,7 @@
 		</div> 
 		<div class="col-md-6">
 			<h2>Upper Body Warmup Exercises</h2>
-			<% for i in 1..(($macrocycleLength / 4) * 3) %>
+			<% for i in 1..((@macrocycleLength / 4) * 3) %>
 				<p class="well">
 					<strong>Exercise <%= i %>:</strong>
 					<br />

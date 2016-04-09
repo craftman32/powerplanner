@@ -32,6 +32,8 @@ class MacrocyclesController < ApplicationController
   end
 
   def editexercises
+    @macrocycle = Macrocycle.find(params[:id])
+    @macrocycleLength = @macrocycle.length
     @bars = Bar.all
     @boards = Board.all 
     @boxes = Box.all 
