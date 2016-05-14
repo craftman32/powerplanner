@@ -1,6 +1,11 @@
 <h1>Exercises</h1>
 
-<%= will_paginate @exercises %>
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @exercises %>
+  </div>
+  <%= will_paginate(@exercises, :container => false) %>
+</div>
 <table class="table">
   <tr>
     <th>Name</th>
@@ -17,9 +22,13 @@
       </td>
       <td>
         <%= link_to 'Details', exercise_path(exercise), :class=>'btn btn-default' %>
-        <%= link_to 'Delete', exercise_path(exercise), :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
       </td>
     </tr>
   <% end %>
 </table>
-<%= will_paginate @exercises %>
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @exercises %>
+  </div>
+  <%= will_paginate(@exercises, :container => false) %>
+</div>

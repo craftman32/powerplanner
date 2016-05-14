@@ -9,15 +9,6 @@
   <%= @exercise.description %>
 </p>
 
-<h3>Variation Details</h3>
-<% if @exercise.variations.any? %>
-	<% @exercise.variations.each do |variation| %>
-		<p>
-			<%= variation.name %>
-		</p>
-	<% end %>
-<% end %>
-
 <h3>Weakness Details</h3>
 <% if @exercise.weaknesses.any? %>
 	<% @exercise.weaknesses.each do |weakness| %>

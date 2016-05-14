@@ -4,4 +4,4 @@ Hello! My name is Mike and I am making this Rails app for Grand Valley State Uni
 
 This application provides a system for creating powerlifting training cycles based on the conjugate method. Lucy can help guide you through this process, or you can manually make your own cycle. You can also log the weights you use for your exercises so you can track your progress.
 
-This is currently a work in progress. It will be complete by April 13th, 2016.
+The application is live at http://tranquil-brook-10665.herokuapp.com/
